@@ -1,0 +1,19 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 74px;
+  margin: auto 70px;
+}
+
+@media screen and (max-width: 800px) {
+  .header {
+    margin: auto 30px;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .header {
+    margin: auto 14px;
+  }
+}

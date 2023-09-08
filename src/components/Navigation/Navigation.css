@@ -1,0 +1,57 @@
+.menu__list {
+  display: flex;
+  margin: 0 auto;
+  padding: 0;
+  align-items: center;
+}
+
+.menu__point {
+  list-style: none;
+}
+
+.menu__registration {
+  color: #fff;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 16px;
+  text-decoration: none;
+  padding-right: 30px;
+  box-sizing: border-box;
+  transition: opacity 0.4s linear;
+}
+
+.menu__registration:hover {
+  opacity: 0.5;
+  cursor: pointer;
+}
+
+.menu__input {
+  color: #000;
+  width: 76px;
+  height: 32px;
+  background: #3ddc84;
+  border-radius: 3px;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 16px;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  padding-left: 20px;
+  box-sizing: border-box;
+}
+
+@media screen and (max-width: 450px) {
+  .menu__input {
+    font-size: 10px;
+    width: 54px;
+    height: 26px;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .menu__registration {
+    font-size: 10px;
+  }
+}
