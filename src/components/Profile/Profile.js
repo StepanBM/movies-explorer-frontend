@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "./Profile.css";
 
-const Profile = () => {
+function Profile() {
   return (
     <section className="profile">
       <h2 className="profile__title">Привет, Виталий!</h2>
@@ -38,6 +38,6 @@ const Profile = () => {
       </Link>
     </section>
   );
-};
+}
 
 export default Profile;

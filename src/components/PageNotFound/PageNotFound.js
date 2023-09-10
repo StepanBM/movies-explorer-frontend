@@ -2,7 +2,7 @@ import React from "react";
 import "./PageNotFound.css";
 import { Link } from "react-router-dom";
 
-const PageNotFound = () => {
+function PageNotFound() {
   return (
     <div className="wrong">
       <div className="wrong__container">
@@ -14,6 +14,6 @@ const PageNotFound = () => {
       </Link>
     </div>
   );
-};
+}
 
 export default PageNotFound;
