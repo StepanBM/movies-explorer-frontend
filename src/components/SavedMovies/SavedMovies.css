@@ -2,3 +2,19 @@
   padding-left: 70px;
   padding-right: 70px;
 }
+
+@media screen and (max-width: 800px) {
+  .saved-movies {
+    padding-left: 30px;
+    padding-right: 30px;
+    box-sizing: border-box;
+  }
+}
+
+@media screen and (max-width: 689px) {
+  .saved-movies {
+    padding-left: 10px;
+    padding-right: 10px;
+    box-sizing: border-box;
+  }
+}

@@ -15,6 +15,12 @@ import Profile from "../Profile/Profile";
 
 import PageNotFound from "../PageNotFound/PageNotFound";
 
+import Promo from "../Promo/Promo";
+import AboutProject from "../AboutProject/AboutProject";
+import Techs from "../Techs/Techs";
+import AboutMe from "../AboutMe/AboutMe";
+import Portfolio from "../Portfolio/Portfolio";
+
 import cards from "../../utils/Cards";
 
 function App() {
@@ -26,7 +32,17 @@ function App() {
           element={
             <>
               <Header component={<Navigation reg="/signup" way="signin" />} />
-              <Main />
+              <Main
+                component={
+                  <>
+                    <Promo />
+                    <AboutProject />
+                    <Techs />
+                    <AboutMe />
+                    <Portfolio />
+                  </>
+                }
+              />
               <Footer />
             </>
           }
@@ -44,7 +60,7 @@ function App() {
                   />
                 }
               />
-              <Movies cards={cards} />
+              <Main component={<Movies cards={cards} />} />
               <Footer />
             </>
           }
@@ -62,13 +78,13 @@ function App() {
                   />
                 }
               />
-              <SavedMovies cards={cards} />
+              <Main component={<SavedMovies cards={cards} />} />
               <Footer />
             </>
           }
         />
-        <Route path="/signup" element={<Register />} />
-        <Route path="/signin" element={<Login />} />
+        <Route path="/signup" element={<Main component={<Register />} />} />
+        <Route path="/signin" element={<Main component={<Login />} />} />
         <Route
           path="/profile"
           element={
@@ -82,11 +98,11 @@ function App() {
                   />
                 }
               />
-              <Profile />
+              <Main component={<Profile />} />
             </>
           }
         />
-        <Route path="/*" element={<PageNotFound />} />
+        <Route path="/*" element={<Main component={<PageNotFound />} />} />
       </Routes>
     </div>
   );

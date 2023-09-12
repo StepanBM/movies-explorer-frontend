@@ -1,5 +1,5 @@
 .movie {
-  max-width: 360px;
+  width: 100%;
   position: relative;
 }
 
@@ -8,6 +8,9 @@
   justify-content: space-between;
   align-items: center;
   padding-top: 14px;
+  padding-left: 16px;
+  padding-right: 16px;
+  box-sizing: border-box;
 }
 
 .movie__name {
@@ -16,6 +19,10 @@
   font-weight: 500;
   line-height: normal;
   margin: 0;
+  max-width: 250px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .movie__duration {
@@ -24,6 +31,7 @@
   font-size: 11px;
   font-weight: 400;
   line-height: 10px;
+  width: 52px;
   margin: 0;
 }
 
@@ -89,8 +97,16 @@
   width: 100%;
 }
 
+@media screen and (max-width: 800px) {
+  .movie__container {
+    padding-top: 20px;
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
 @media screen and (max-width: 450px) {
-  .movies__container {
-    justify-content: center;
+  .movie__container {
+    padding-top: 10px;
   }
 }

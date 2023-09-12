@@ -17,11 +17,11 @@
   text-decoration: none;
   padding-right: 30px;
   box-sizing: border-box;
-  transition: opacity 0.4s linear;
+  transition: color 0.4s linear;
 }
 
 .menu__registration:hover {
-  opacity: 0.5;
+  color: #000;
   cursor: pointer;
 }
 
@@ -47,11 +47,13 @@
     font-size: 10px;
     width: 54px;
     height: 26px;
+    padding-left: 12px;
   }
 }
 
 @media screen and (max-width: 450px) {
   .menu__registration {
     font-size: 10px;
+    padding-right: 14px;
   }
 }

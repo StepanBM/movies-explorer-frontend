@@ -9,14 +9,16 @@ function Register() {
       <Link to="/">
         <img className="registration__logo" src={logo} alt="Логотип" />
       </Link>
-      <h2 className="registration__title">Добро пожаловать!</h2>
+      <h1 className="registration__title">Добро пожаловать!</h1>
       <form className="registration__form">
         <label className="registration__item">
-          <p className="registration__text">Имя</p>
+          Имя
           <input
             className="registration__input"
-            name="name"
-            type="name"
+            name="text"
+            type="text"
+            minLength="2"
+            maxLength="24"
             placeholder="Имя"
             defaultValue="Виталий"
             required
@@ -24,7 +26,7 @@ function Register() {
           <span className="registration__error"></span>
         </label>
         <label className="registration__item">
-          <p className="registration__text">E-mail</p>
+          E-mail
           <input
             className="registration__input"
             name="email"
@@ -36,11 +38,13 @@ function Register() {
           <span className="registration__error"></span>
         </label>
         <label className="registration__item">
-          <p className="registration__text">Пароль</p>
+          Пароль
           <input
             className="registration__input"
             name="password"
             type="password"
+            minLength="6"
+            maxLength="24"
             placeholder="Пароль"
             defaultValue="••••••••••••••"
             required

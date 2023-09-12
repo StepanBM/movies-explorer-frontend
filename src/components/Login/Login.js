@@ -9,10 +9,10 @@ function Login() {
       <Link to="/">
         <img className="authentication__logo" src={logo} alt="Логотип" />
       </Link>
-      <h2 className="authentication__title">Рады видеть!</h2>
+      <h1 className="authentication__title">Рады видеть!</h1>
       <form className="authentication__form">
         <label className="authentication__item">
-          <p className="authentication__text">E-mail</p>
+          E-mail
           <input
             className="authentication__input"
             name="email"
@@ -24,11 +24,13 @@ function Login() {
           <span className="authentication__error"></span>
         </label>
         <label className="authentication__item">
-          <p className="authentication__text">Пароль</p>
+          Пароль
           <input
             className="authentication__input"
             name="password"
             type="password"
+            minLength="6"
+            maxLength="24"
             placeholder="Пароль"
             required
           />
@@ -39,7 +41,7 @@ function Login() {
         </button>
       </form>
       <p className="authentication__question">
-        Уже зарегистрированы?
+        Ещё не зарегистрированы?
         <Link to="/signin" className="authentication__link">
           Регистрация
         </Link>

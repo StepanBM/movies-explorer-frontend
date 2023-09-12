@@ -5,21 +5,23 @@ import "./Profile.css";
 function Profile() {
   return (
     <section className="profile">
-      <h2 className="profile__title">Привет, Виталий!</h2>
+      <h1 className="profile__title">Привет, Виталий!</h1>
       <form className="profile__form">
         <label className="profile__item">
-          <p className="profile__text">Имя</p>
+          Имя
           <input
             className="profile__input"
-            name="name"
-            type="name"
+            name="text"
+            type="text"
+            minLength="2"
+            maxLength="24"
             placeholder="Имя"
             defaultValue="Виталий"
             required
           />
         </label>
         <label className="profile__item">
-          <p className="profile__text">E-mail</p>
+          E-mail
           <input
             className="profile__input"
             name="email"
@@ -30,9 +32,9 @@ function Profile() {
           />
         </label>
       </form>
-      <Link to="/profile" className="profile__edit">
+      <button className="profile__edit" type="submit">
         Редактировать
-      </Link>
+      </button>
       <Link to="/" className="profile__exit">
         Выйти из аккаунта
       </Link>

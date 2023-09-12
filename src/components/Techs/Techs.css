@@ -2,41 +2,41 @@
   padding: 100px 70px;
   background: #272727;
 }
- 
+
 .techs__title {
   margin: 0;
   padding: 0;
   padding-bottom: 23px;
-  border-bottom: 1px solid #DADADA;
-  color: #FFF;
+  border-bottom: 1px solid #dadada;
+  color: #fff;
   font-size: 22px;
   font-weight: 400;
   line-height: normal;
   letter-spacing: -0.88px;
 }
- 
+
 .techs__container {
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-top: 90px;
 }
- 
+
 .techs__subtitle {
   margin: 0;
-  margin-top: 90px;
-  color: #FFF;
+  color: #fff;
   text-align: center;
   font-size: 50px;
   font-weight: 400;
   line-height: 58px;
   letter-spacing: -2px;
 }
- 
+
 .techs__text {
   margin: 0;
   margin-top: 26px;
   max-width: 460px;
-  color: #FFF;
+  color: #fff;
   text-align: center;
   font-size: 14px;
   font-style: normal;
@@ -44,36 +44,34 @@
   line-height: 20px;
   letter-spacing: -0.56px;
 }
- 
+
 .techs__list {
-  display: flex;
-  max-width: 648px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 90px);
+  column-gap: 10px;
+  max-width: 690px;
   margin: 0;
   padding: 0;
   margin-top: 100px;
-  flex-wrap: wrap;
+  justify-content: center;
 }
- 
+
 .techs__paragraph {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 84px;
-  height: 57px;
+  width: 90px;
+  height: 60px;
   border-radius: 10px;
   background: #303030;
-  color: #FFF;
+  color: #fff;
   text-align: center;
   font-size: 14px;
   font-weight: 400;
   line-height: normal;
   letter-spacing: -0.56px;
   margin: 0;
-  margin-right: 10px;
-}
-
-.techs__paragraph:last-of-type {
-  margin-right: 0;
+  box-sizing: border-box;
 }
 
 @media screen and (max-width: 800px) {
@@ -98,8 +96,16 @@
 }
 
 @media screen and (max-width: 800px) {
+  .techs__paragraph {
+    width: 84px;
+    height: 57px;
+  }
+}
+
+@media screen and (max-width: 800px) {
   .techs__list {
     margin-top: 83px;
+    grid-template-columns: repeat(auto-fit, minmax(84px, 1fr));
   }
 }
 
@@ -122,7 +128,6 @@
   .techs__subtitle {
     font-size: 30px;
     letter-spacing: -1.2px;
-    margin-top: 60px;
   }
 }
 
@@ -131,18 +136,27 @@
     font-size: 11px;
     line-height: 16px;
     letter-spacing: -0.44px;
-    margin-top: 24px;
+    margin-top: 10px;
   }
 }
 
-@media screen and (max-width: 450px) {
+@media screen and (max-width: 670px) {
   .techs__list {
     margin-top: 50px;
+    max-width: 178px;
+    grid-template-columns: repeat(2, 84px);
+    row-gap: 10px;
   }
 }
 
 @media screen and (max-width: 450px) {
   .techs {
-    padding: 70px 18px;
+    padding: 80px 18px;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .techs__container {
+    margin-top: 55px;
   }
 }

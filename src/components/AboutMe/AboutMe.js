@@ -25,7 +25,7 @@ function AboutMe() {
             Github
           </a>
         </div>
-        <img className="about-me__foto" src={foto} alt="Аватарка" />
+        <img className="about-me__foto" src={foto} alt="Фотография студента" />
       </div>
     </section>
   );
