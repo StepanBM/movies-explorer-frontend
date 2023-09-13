@@ -13,24 +13,25 @@ function MoviesCard({ card }) {
   let location = useLocation();
 
   return (
-    <article className="movie">
+    <li className="movie">
       <div className="movie__button"></div>
       {location.pathname === "/movies" ? (
         <button
           className={saveCard ? "movie__save-active active" : "movie__save"}
+          type="button"
           onClick={onClickSaveCard}
         >
           Сохранить
         </button>
       ) : (
-        <button className="movie__delete"></button>
+        <button className="movie__delete" type="button"></button>
       )}
       <img className="movie__image" src={card.link} alt={card.name} />
       <div className="movie__container">
         <h2 className="movie__name">{card.name}</h2>
         <p className="movie__duration">{card.duration}</p>
       </div>
-    </article>
+    </li>
   );
 }
 

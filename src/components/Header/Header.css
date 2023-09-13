@@ -9,7 +9,13 @@
 .header__logo {
   width: 38px;
   height: 38px;
+  border-radius: 38px;
+  box-shadow: rgba(32, 32, 32, 1);
+}
+
+.header__logo:hover {
   cursor: pointer;
+  box-shadow: 0 0 21px rgba(61, 220, 132, 1);
 }
 
 @media screen and (max-width: 800px) {

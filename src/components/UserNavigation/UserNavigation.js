@@ -11,13 +11,23 @@ function UserNavigation({ film, save, profile }) {
 
   return (
     <div className="user-navigation">
-      <button className="user-navigation__icon" onClick={onClickBurgerMenu} />
+      <button
+        className="user-navigation__icon"
+        type="button"
+        onClick={onClickBurgerMenu}
+      />
       <nav
-        className={menuActive ? "user-navigation__menu active" : "user-navigation__menu"}
+        className={
+          menuActive
+            ? "user-navigation__menu user-navigation__active"
+            : "user-navigation__menu"
+        }
       >
         <button
           className={
-            menuActive ? "user-navigation__close active" : "user-navigation__close"
+            menuActive
+              ? "user-navigation__close user-navigation__active"
+              : "user-navigation__close"
           }
           type="button"
           onClick={onClickBurgerMenu}
@@ -27,7 +37,9 @@ function UserNavigation({ film, save, profile }) {
             <Link
               to="/"
               className={
-                menuActive ? "user-navigation__main active" : "user-navigation__main"
+                menuActive
+                  ? "user-navigation__main user-navigation__active"
+                  : "user-navigation__main"
               }
             >
               Главная

@@ -8,7 +8,13 @@
 .registration__logo {
   width: 38px;
   height: 38px;
+  border-radius: 38px;
+  box-shadow: rgba(32, 32, 32, 1);
+}
+
+.registration__logo:hover {
   cursor: pointer;
+  box-shadow: 0 0 21px rgba(61, 220, 132, 1);
 }
 
 .registration__title {
@@ -143,7 +149,8 @@
 
 @media screen and (max-width: 450px) {
   .registration__submit {
-    margin-top: 157px;
+    margin-top: 165px;
+    font-size: 12px;
   }
 }
 
@@ -159,5 +166,11 @@
     text-align: center;
     margin-top: 50px;
     margin-bottom: 80px;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .registration__link {
+    font-size: 12px;
   }
 }

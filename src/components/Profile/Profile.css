@@ -15,7 +15,7 @@
   font-weight: 500;
   line-height: normal;
   margin: 0;
-  margin-bottom: 130px;
+  margin-bottom: 120px;
 }
 
 .profile__input {
@@ -64,7 +64,7 @@
   font-size: 13px;
   font-weight: 400;
   line-height: normal;
-  margin-top: 220px;
+  margin-top: 203px;
   transition: opacity 0.4s;
   text-decoration: none;
   background-color: transparent;
@@ -84,7 +84,12 @@
   font-weight: 500;
   line-height: normal;
   text-decoration: none;
+  box-shadow: rgba(32, 32, 32, 1);
+}
+
+.profile__exit:hover {
   cursor: pointer;
+  text-shadow: 0 0 12px rgba(238, 52, 101, 1);
 }
 
 @media screen and (max-width: 800px) {

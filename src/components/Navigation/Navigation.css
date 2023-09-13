@@ -17,11 +17,11 @@
   text-decoration: none;
   padding-right: 30px;
   box-sizing: border-box;
-  transition: color 0.4s linear;
+  transition: opacity 0.4s linear;
 }
 
 .menu__registration:hover {
-  color: #000;
+  opacity: 0.6;
   cursor: pointer;
 }
 
@@ -40,6 +40,12 @@
   text-align: center;
   padding-left: 20px;
   box-sizing: border-box;
+  transition: opacity 0.4s linear;
+}
+
+.menu__input:hover {
+  opacity: 0.6;
+  cursor: pointer;
 }
 
 @media screen and (max-width: 450px) {

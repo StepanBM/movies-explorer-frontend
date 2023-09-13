@@ -7,6 +7,7 @@
   align-items: center;
   box-sizing: border-box;
   margin: 0 auto;
+  margin-top: 20px;
 }
 
 .promo__title {
@@ -39,5 +40,11 @@
     padding-left: 14px;
     padding-right: 14px;
     padding-top: 220px;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .promo {
+    margin-top: 14px;
   }
 }

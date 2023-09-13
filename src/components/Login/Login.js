@@ -42,7 +42,7 @@ function Login() {
       </form>
       <p className="authentication__question">
         Ещё не зарегистрированы?
-        <Link to="/signin" className="authentication__link">
+        <Link to="/signup" className="authentication__link">
           Регистрация
         </Link>
       </p>

@@ -12,7 +12,13 @@
   display: inline-block;
   width: 36px;
   height: 20px;
+  border-radius: 20px;
+  box-shadow: rgba(32, 32, 32, 1);
+}
+
+.filter__tumbler:hover {
   cursor: pointer;
+  box-shadow: 0 0 12px rgba(255, 255, 255, 1);
 }
 
 .filter__checkbox {
