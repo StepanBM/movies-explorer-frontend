@@ -1,3 +1,7 @@
+.menu {
+  margin-right: 70px;
+}
+
 .menu__list {
   display: flex;
   margin: 0 auto;
@@ -46,6 +50,18 @@
 .menu__input:hover {
   opacity: 0.6;
   cursor: pointer;
+}
+
+@media screen and (max-width: 800px) {
+  .menu {
+    margin-right: 30px;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .menu {
+    margin-right: 14px;
+  }
 }
 
 @media screen and (max-width: 450px) {

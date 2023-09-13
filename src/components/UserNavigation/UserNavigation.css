@@ -1,3 +1,7 @@
+.user-navigation {
+  margin-right: 70px;
+}
+
 .user-navigation__list {
   display: flex;
   padding: 0;
@@ -63,7 +67,7 @@
   display: flex;
   align-items: center;
   padding-left: 20px;
-  margin-left: 21.2vw;
+  margin-left: 28.4vw;
   box-sizing: border-box;
   transition: opacity 0.4s;
 }
@@ -257,5 +261,17 @@
     > .user-navigation__item
     > .user-navigation__account {
     margin-top: 445px;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .user-navigation {
+    margin-right: 30px;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .user-navigation {
+    margin-right: 14px;
   }
 }
