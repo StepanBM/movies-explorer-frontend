@@ -134,7 +134,7 @@
   }
 }
 
-.user-navigation__menu.user-navigation__active {
+.user-navigation__menu.user-navigation__menu_active {
   display: flex;
   position: fixed;
   right: 0;
@@ -160,20 +160,20 @@
   display: block;
 }
 
-.user-navigation__menu.user-navigation__active > .user-navigation__list {
+.user-navigation__menu.user-navigation__menu_active > .user-navigation__list {
   flex-direction: column;
   text-align: center;
   justify-content: center;
   align-items: center;
 }
 
-.user-navigation__menu.user-navigation__active
+.user-navigation__menu.user-navigation__menu_active
   > .user-navigation__list
   > .user-navigation__item {
   margin-bottom: 28px;
 }
 
-.user-navigation__menu.user-navigation__active
+.user-navigation__menu.user-navigation__menu_active
   > .user-navigation__list
   > .user-navigation__item
   > .user-navigation__film:hover {
@@ -181,7 +181,7 @@
   color: #fff;
 }
 
-.user-navigation__menu.user-navigation__active
+.user-navigation__menu.user-navigation__menu_active
   > .user-navigation__list
   > .user-navigation__item
   > .user-navigation__film {
@@ -190,7 +190,7 @@
   line-height: normal;
 }
 
-.user-navigation__menu.user-navigation__active
+.user-navigation__menu.user-navigation__menu_active
   > .user-navigation__list
   > .user-navigation__item
   > .user-navigation__save-film {
@@ -199,7 +199,7 @@
   line-height: normal;
 }
 
-.user-navigation__menu.user-navigation__active
+.user-navigation__menu.user-navigation__menu_active
   > .user-navigation__list
   > .user-navigation__item
   > .user-navigation__save-film:hover {
@@ -207,7 +207,7 @@
   color: #fff;
 }
 
-.user-navigation__menu.user-navigation__active
+.user-navigation__menu.user-navigation__menu_active
   > .user-navigation__list
   > .user-navigation__item
   > .user-navigation__account {
@@ -215,13 +215,13 @@
   margin-top: 620px;
 }
 
-.user-navigation__menu.user-navigation__active
+.user-navigation__menu.user-navigation__menu_active
   > .user-navigation__list
   > .user-navigation__item:last-of-type {
   margin: 0;
 }
 
-.user-navigation__menu.user-navigation__active
+.user-navigation__menu.user-navigation__menu_active
   > .user-navigation__list
   > .user-navigation__item:nth-of-type(3) {
   margin: 0;
@@ -248,7 +248,7 @@
 }
 
 @media screen and (max-width: 450px) {
-  .user-navigation__menu.user-navigation__active
+  .user-navigation__menu.user-navigation__menu_active
     > .user-navigation__list
     > .user-navigation__item {
     margin-bottom: 24px;
@@ -256,7 +256,7 @@
 }
 
 @media screen and (max-width: 450px) {
-  .user-navigation__menu.user-navigation__active
+  .user-navigation__menu.user-navigation__menu_active
     > .user-navigation__list
     > .user-navigation__item
     > .user-navigation__account {

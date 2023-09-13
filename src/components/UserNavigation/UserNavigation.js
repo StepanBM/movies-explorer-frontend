@@ -19,7 +19,7 @@ function UserNavigation({ film, save, profile }) {
       <nav
         className={
           menuActive
-            ? "user-navigation__menu user-navigation__active"
+            ? "user-navigation__menu user-navigation__menu_active"
             : "user-navigation__menu"
         }
       >
