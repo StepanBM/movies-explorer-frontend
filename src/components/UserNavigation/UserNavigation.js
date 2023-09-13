@@ -16,52 +16,60 @@ function UserNavigation({ film, save, profile }) {
         type="button"
         onClick={onClickBurgerMenu}
       />
-      <nav
+      <div
         className={
           menuActive
-            ? "user-navigation__menu user-navigation__menu_active"
-            : "user-navigation__menu"
+            ? "user-navigation__container user-navigation__container_active"
+            : "user-navigation__container"
         }
       >
-        <button
+        <nav
           className={
             menuActive
-              ? "user-navigation__close user-navigation__active"
-              : "user-navigation__close"
+              ? "user-navigation__menu user-navigation__menu_active"
+              : "user-navigation__menu"
           }
-          type="button"
-          onClick={onClickBurgerMenu}
-        ></button>
-        <ul className="user-navigation__list">
-          <li className="user-navigation__item">
-            <Link
-              to="/"
-              className={
-                menuActive
-                  ? "user-navigation__main user-navigation__active"
-                  : "user-navigation__main"
-              }
-            >
-              Главная
-            </Link>
-          </li>
-          <li className="user-navigation__item">
-            <Link to={film} className="user-navigation__film">
-              Фильмы
-            </Link>
-          </li>
-          <li className="user-navigation__item">
-            <Link to={save} className="user-navigation__save-film">
-              Сохранённые фильмы
-            </Link>
-          </li>
-          <li className="user-navigation__item">
-            <Link to={profile} className="user-navigation__account">
-              Аккаунт
-            </Link>
-          </li>
-        </ul>
-      </nav>
+        >
+          <button
+            className={
+              menuActive
+                ? "user-navigation__close user-navigation__active"
+                : "user-navigation__close"
+            }
+            type="button"
+            onClick={onClickBurgerMenu}
+          ></button>
+          <ul className="user-navigation__list">
+            <li className="user-navigation__item">
+              <Link
+                to="/"
+                className={
+                  menuActive
+                    ? "user-navigation__main user-navigation__active"
+                    : "user-navigation__main"
+                }
+              >
+                Главная
+              </Link>
+            </li>
+            <li className="user-navigation__item">
+              <Link to={film} className="user-navigation__film">
+                Фильмы
+              </Link>
+            </li>
+            <li className="user-navigation__item">
+              <Link to={save} className="user-navigation__save-film">
+                Сохранённые фильмы
+              </Link>
+            </li>
+            <li className="user-navigation__item">
+              <Link to={profile} className="user-navigation__account">
+                Аккаунт
+              </Link>
+            </li>
+          </ul>
+        </nav>
+      </div>
     </div>
   );
 }

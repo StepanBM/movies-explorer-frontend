@@ -4,7 +4,7 @@
   justify-content: center;
   margin: 0;
   margin-top: 29px;
-  margin-bottom: 50px;
+  margin-bottom: 39px;
 }
 
 .filter__tumbler {
@@ -73,5 +73,11 @@
 @media screen and (max-width: 800px) {
   .filter {
     margin-top: 40px;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .filter {
+    margin-top: 45px;
   }
 }

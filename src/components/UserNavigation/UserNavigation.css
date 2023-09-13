@@ -134,16 +134,25 @@
   }
 }
 
-.user-navigation__menu.user-navigation__menu_active {
-  display: flex;
+.user-navigation__container.user-navigation__container_active {
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
   position: fixed;
   right: 0;
   top: 0;
+  z-index: 3;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.user-navigation__menu.user-navigation__menu_active {
+  display: flex;
   width: 520px;
   height: 100vh;
   flex-direction: column;
-  background-color: rgba(32, 32, 32, 1);
   z-index: 2;
+  background: rgba(32, 32, 32, 1);
 }
 
 .user-navigation__main.user-navigation__active {
