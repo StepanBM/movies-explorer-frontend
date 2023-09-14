@@ -1,0 +1,138 @@
+.profile {
+  padding-top: 74px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-bottom: 70px;
+  max-width: 410px;
+  display: flex;
+  flex-direction: column;
+}
+
+.profile__title {
+  color: #fff;
+  text-align: center;
+  font-size: 24px;
+  font-weight: 500;
+  line-height: normal;
+  margin: 0;
+  margin-bottom: 120px;
+}
+
+.profile__input {
+  width: 122px;
+  height: 14px;
+  padding: 0;
+  margin: 0;
+  border: none;
+  outline: none;
+  color: #fff;
+  text-align: right;
+  font-size: 11px;
+  font-weight: 400;
+  line-height: normal;
+  box-sizing: border-box;
+  background-color: transparent;
+}
+
+.profile__input:focus {
+  outline: 1px solid #fff;
+}
+
+.profile__item {
+  margin: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #424242;
+  margin-bottom: 17px;
+  padding-bottom: 17px;
+  box-sizing: border-box;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.profile__item:last-of-type {
+  margin-bottom: 0;
+  border-bottom: none;
+}
+
+.profile__edit {
+  color: #fff;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: normal;
+  margin-top: 203px;
+  transition: opacity 0.4s;
+  text-decoration: none;
+  background-color: transparent;
+  border: none;
+}
+
+.profile__edit:hover {
+  opacity: 0.6;
+  cursor: pointer;
+}
+
+.profile__exit {
+  margin-top: 16px;
+  color: #ee3465;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: normal;
+  text-decoration: none;
+  box-shadow: rgba(32, 32, 32, 1);
+}
+
+.profile__exit:hover {
+  cursor: pointer;
+  text-shadow: 0 0 12px rgba(238, 52, 101, 1);
+}
+
+@media screen and (max-width: 800px) {
+  .profile {
+    padding-top: 235px;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .profile__title {
+    margin-bottom: 95px;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .profile__edit {
+    margin-top: 192px;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .profile {
+    padding-top: 70px;
+    margin-left: 30px;
+    margin-right: 30px;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .profile__title {
+    margin-bottom: 80px;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .profile__edit {
+    margin-top: 360px;
+    font-size: 12px;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .profile__exit {
+    font-size: 12px;
+  }
+}

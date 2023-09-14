@@ -1,0 +1,119 @@
+.movie {
+  padding: 0;
+  width: 100%;
+  position: relative;
+}
+
+.movie__container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 12px;
+  padding-left: 15px;
+  padding-right: 15px;
+  box-sizing: border-box;
+}
+
+.movie__name {
+  color: #fff;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: normal;
+  margin: 0;
+  max-width: 250px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.movie__duration {
+  color: #8b8b8b;
+  text-align: center;
+  font-size: 11px;
+  font-weight: 400;
+  line-height: 10px;
+  width: 52px;
+  margin: 0;
+}
+
+.movie__save {
+  position: absolute;
+  right: 14px;
+  top: 14px;
+  width: 72px;
+  height: 21px;
+  background-color: #313131;
+  border-radius: 30px;
+  border: none;
+  color: #fff;
+  text-align: center;
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 9px;
+  padding: 0;
+  z-index: 2;
+  display: none;
+}
+
+.movie:hover > .movie__save {
+  display: block;
+  cursor: pointer;
+}
+
+.movie__save-active {
+  background-image: url(../../images/choose.svg);
+  background-repeat: no-repeat;
+  width: 21px;
+  height: 21px;
+  background-size: contain;
+  position: absolute;
+  right: 14px;
+  top: 14px;
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+  text-indent: -99999px;
+}
+
+.movie__delete {
+  background-image: url(../../images/delete.svg);
+  background-repeat: no-repeat;
+  width: 21px;
+  height: 21px;
+  background-size: contain;
+  position: absolute;
+  right: 14px;
+  top: 14px;
+  border: none;
+  background-color: transparent;
+  display: none;
+}
+
+.movie:hover .movie__delete {
+  display: block;
+  cursor: pointer;
+}
+
+.movie__image {
+  width: 100%;
+}
+
+@media screen and (max-width: 800px) {
+  .movie__container {
+    padding-top: 22px;
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .movie__container {
+    padding-top: 13px;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .movie__name {
+    font-size: 12px;
+  }
+}
