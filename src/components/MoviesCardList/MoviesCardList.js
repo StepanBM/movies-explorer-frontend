@@ -2,7 +2,10 @@ import React from "react";
 import "./MoviesCardList.css";
 import MoviesCard from "../MoviesCard/MoviesCard";
 
+import { useLocation } from "react-router-dom";
+
 function MoviesCardList({ cards }) {
+  let location = useLocation();
   return (
     <section className="list-movies">
       <ul className="list-movies__container">
@@ -10,9 +13,13 @@ function MoviesCardList({ cards }) {
           <MoviesCard key={item._id} card={item} />
         ))}
       </ul>
-      <button className="list-movies__more" type="button">
-        Ещё
-      </button>
+      {location.pathname === "/movies" ? (
+        <button className="list-movies__more" type="button">
+          Ещё
+        </button>
+      ) : (
+        ""
+      )}
     </section>
   );
 }

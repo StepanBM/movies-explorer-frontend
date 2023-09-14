@@ -1,12 +1,14 @@
 .saved-movies {
   padding-left: 70px;
   padding-right: 70px;
+  margin-bottom: 303px;
 }
 
 @media screen and (max-width: 800px) {
   .saved-movies {
     padding-left: 30px;
     padding-right: 30px;
+    margin-bottom: 240px;
     box-sizing: border-box;
   }
 }
@@ -15,6 +17,7 @@
   .saved-movies {
     padding-left: 10px;
     padding-right: 10px;
+    margin-bottom: 217px;
     box-sizing: border-box;
   }
 }
