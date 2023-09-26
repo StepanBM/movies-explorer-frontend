@@ -20,13 +20,11 @@ function Register({ onRegister }) {
         <img className="registration__logo" src={logo} alt="Логотип" />
       </Link>
       <h1 className="registration__title">Добро пожаловать!</h1>
-      <form className="registration__form" onSubmit={handleSubmit} noValidate>
+      <form className="registration__form" onSubmit={handleSubmit}>
         <label className="registration__item">
           Имя
           <input
-            className={`registration__input ${
-              errors && errors["name"] && "registration__input_type_error"
-            }`}
+            className="registration__input"
             name="name"
             type="text"
             minLength="2"
@@ -35,14 +33,12 @@ function Register({ onRegister }) {
             onChange={handleChange}
             required
           />
-          <span className="registration__error">{errors && errors["name"]}</span>
+          <span className="registration__error">{errors["name"]}</span>
         </label>
         <label className="registration__item">
           E-mail
           <input
-            className={`registration__input ${
-              errors && errors["email"] && "registration__input_type_error"
-            }`}
+            className="registration__input"
             name="email"
             type="email"
             placeholder="E-mail"
@@ -54,9 +50,7 @@ function Register({ onRegister }) {
         <label className="registration__item">
           Пароль
           <input
-            className={`registration__input ${
-              errors && errors["password"] && "registration__input_type_error"
-            }`}
+            className="registration__input"
             name="password"
             type="password"
             minLength="5"

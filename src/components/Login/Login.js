@@ -20,22 +20,18 @@ function Login({ onLogin }) {
         <img className="authentication__logo" src={logo} alt="Логотип" />
       </Link>
       <h1 className="authentication__title">Рады видеть!</h1>
-      <form className="authentication__form" onSubmit={handleSubmit} noValidate>
+      <form className="authentication__form" onSubmit={handleSubmit}>
         <label className="authentication__item">
           E-mail
           <input
-            className={`authentication__input ${
-              errors && errors["emaill"] && "authentication__input_type_error"
-            }`}
+            className="authentication__input"
             name="email"
             type="email"
             placeholder="E-mail"
             onChange={handleChange}
             required
           />
-          <span className="authentication__error">
-            {errors && errors["email"] && errors["email"]}
-          </span>
+          <span className="authentication__error">{errors["email"]}</span>
         </label>
         <label className="authentication__item">
           Пароль
@@ -49,9 +45,7 @@ function Login({ onLogin }) {
             onChange={handleChange}
             required
           />
-          <span className="authentication__error">
-            {errors && errors["password"] && errors["password"]}
-          </span>
+          <span className="authentication__error">{errors["password"]}</span>
         </label>
         <button className="authentication__submit" type="submit" disabled={!isValid}>
           Войти

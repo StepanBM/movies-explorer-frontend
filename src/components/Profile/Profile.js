@@ -37,9 +37,7 @@ function Profile({ onUpdateUser, onSignOut }) {
           Имя
           <div className="profile__container">
             <input
-              className={`profile__input ${
-                errors && errors["name"] && "profile__input_type_error"
-              }`}
+              className="profile__input"
               name="name"
               type="text"
               value={values.name}
@@ -49,18 +47,14 @@ function Profile({ onUpdateUser, onSignOut }) {
               onChange={handleChange}
               required
             />
-            <span className="profile__error">
-              {errors && errors["name"] && errors["name"]}
-            </span>
+            <span className="profile__error">{errors["name"]}</span>
           </div>
         </label>
         <label className="profile__item">
           E-mail
           <div className="profile__container">
             <input
-              className={`profile__input ${
-                errors && errors["email"] && "profile__input_type_error"
-              }`}
+              className="profile__input"
               name="email"
               type="email"
               value={values.email}
@@ -68,9 +62,7 @@ function Profile({ onUpdateUser, onSignOut }) {
               onChange={handleChange}
               required
             />
-            <span className="profile__error">
-              {errors && errors["email"] && errors["email"]}
-            </span>
+            <span className="profile__error">{errors["email"]}</span>
           </div>
         </label>
         <button className="profile__edit" type="submit" disabled={!isValid || isDisabled}>
