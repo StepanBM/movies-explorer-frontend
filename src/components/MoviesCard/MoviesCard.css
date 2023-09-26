@@ -4,6 +4,10 @@
   position: relative;
 }
 
+/*.movie:nth-child(n + 13) {
+  display: none;
+}*/
+
 .movie__container {
   display: flex;
   justify-content: space-between;
@@ -94,6 +98,10 @@
   cursor: pointer;
 }
 
+.movie__link {
+  width: 100%;
+}
+
 .movie__image {
   width: 100%;
 }
@@ -117,3 +125,15 @@
     font-size: 12px;
   }
 }
+
+/*@media screen and (max-width: 1099px) {
+  .movie:nth-child(n + 9) {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 689px) {
+  .movie:nth-child(n + 6) {
+    display: none;
+  }
+} */

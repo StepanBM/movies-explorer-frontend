@@ -2,56 +2,72 @@ import React from "react";
 import logo from "../../images/logo.svg";
 import { Link } from "react-router-dom";
 import "./Register.css";
+import { useValidationForm } from "../../utils/Validation";
 
-function Register() {
+function Register({ onRegister }) {
+  const { values, handleChange, errors, isValid } = useValidationForm({});
+
+  function handleSubmit(evt) {
+    evt.preventDefault();
+    if (isValid) {
+      onRegister(values);
+    }
+  }
+
   return (
     <section className="registration">
       <Link to="/">
         <img className="registration__logo" src={logo} alt="Логотип" />
       </Link>
       <h1 className="registration__title">Добро пожаловать!</h1>
-      <form className="registration__form">
+      <form className="registration__form" onSubmit={handleSubmit} noValidate>
         <label className="registration__item">
           Имя
           <input
-            className="registration__input"
-            name="text"
+            className={`registration__input ${
+              errors && errors["name"] && "registration__input_type_error"
+            }`}
+            name="name"
             type="text"
             minLength="2"
             maxLength="24"
             placeholder="Имя"
-            defaultValue="Виталий"
+            onChange={handleChange}
             required
           />
-          <span className="registration__error"></span>
+          <span className="registration__error">{errors && errors["name"]}</span>
         </label>
         <label className="registration__item">
           E-mail
           <input
-            className="registration__input"
+            className={`registration__input ${
+              errors && errors["email"] && "registration__input_type_error"
+            }`}
             name="email"
             type="email"
             placeholder="E-mail"
-            defaultValue="pochta@yandex.ru"
+            onChange={handleChange}
             required
           />
-          <span className="registration__error"></span>
+          <span className="registration__error">{errors["email"]}</span>
         </label>
         <label className="registration__item">
           Пароль
           <input
-            className="registration__input"
+            className={`registration__input ${
+              errors && errors["password"] && "registration__input_type_error"
+            }`}
             name="password"
             type="password"
-            minLength="6"
+            minLength="5"
             maxLength="24"
             placeholder="Пароль"
-            defaultValue="••••••••••••••"
+            onChange={handleChange}
             required
           />
-          <span className="registration__error">Что-то пошло не так...</span>
+          <span className="registration__error">{errors["password"]}</span>
         </label>
-        <button className="registration__submit" type="submit">
+        <button className="registration__submit" type="submit" disabled={!isValid}>
           Зарегистрироваться
         </button>
       </form>

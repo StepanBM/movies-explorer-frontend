@@ -3,14 +3,37 @@ import "./MoviesCard.css";
 
 import { useLocation } from "react-router-dom";
 
-function MoviesCard({ card }) {
+function MoviesCard({ card, onSaveMovie, onDeleteMovie, save }) {
+  let location = useLocation();
+
   const [saveCard, setSaveCard] = React.useState(false);
 
-  function onClickSaveCard() {
+  React.useEffect(() => {
+    if (location.pathname === "/movies")
+      save.map((saveMovies) => {
+        if (saveMovies.movieId === card.id) {
+          setSaveCard(true);
+        }
+      });
+  }, [save, card, location.pathname]);
+
+  /*function onClickSaveCard() {
     setSaveCard(!saveCard);
+  }*/
+
+  //обработчик клика по кнопке лайка
+  function handleLikeClick() {
+    if (saveCard) {
+      onDeleteMovie(save.filter((item) => item.movieId === card.id)[0]);
+    } else {
+      onSaveMovie(card);
+    }
   }
 
-  let location = useLocation();
+  //обработчик клика по кнопке удаления/дизлайка
+  function handleDeleteClick() {
+    onDeleteMovie(card);
+  }
 
   return (
     <li className="movie">
@@ -19,16 +42,30 @@ function MoviesCard({ card }) {
         <button
           className={saveCard ? "movie__save-active active" : "movie__save"}
           type="button"
-          onClick={onClickSaveCard}
+          onClick={handleLikeClick}
         >
           Сохранить
         </button>
       ) : (
-        <button className="movie__delete" type="button"></button>
+        <button
+          className="movie__delete"
+          type="button"
+          onClick={handleDeleteClick}
+        ></button>
       )}
-      <img className="movie__image" src={card.link} alt={card.name} />
+      <a className="movie__link" href={card.trailerLink} target="_blank" rel="noreferrer">
+        <img
+          className="movie__image"
+          src={
+            location.pathname === "/saved-movies"
+              ? card.image
+              : `https://api.nomoreparties.co${card.image.url}`
+          }
+          alt={card.nameRU}
+        />
+      </a>
       <div className="movie__container">
-        <h2 className="movie__name">{card.name}</h2>
+        <h2 className="movie__name">{card.nameRU}</h2>
         <p className="movie__duration">{card.duration}</p>
       </div>
     </li>
