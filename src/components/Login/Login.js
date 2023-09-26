@@ -2,22 +2,16 @@ import React from "react";
 import logo from "../../images/logo.svg";
 import { Link } from "react-router-dom";
 import "./Login.css";
+import { useValidationForm } from "../../utils/Validation";
 
-function Login(props) {
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
-
-  function handleLoginEmail(evt) {
-    setEmail(evt.target.value);
-  }
-
-  function handleLoginPassword(evt) {
-    setPassword(evt.target.value);
-  }
+function Login({ onLogin }) {
+  const { values, handleChange, errors, isValid } = useValidationForm({});
 
   function handleSubmit(evt) {
     evt.preventDefault();
-    props.onLogin(email, password);
+    if (isValid) {
+      onLogin(values);
+    }
   }
 
   return (
@@ -26,18 +20,22 @@ function Login(props) {
         <img className="authentication__logo" src={logo} alt="Логотип" />
       </Link>
       <h1 className="authentication__title">Рады видеть!</h1>
-      <form className="authentication__form" onSubmit={handleSubmit}>
+      <form className="authentication__form" onSubmit={handleSubmit} noValidate>
         <label className="authentication__item">
           E-mail
           <input
-            className="authentication__input"
+            className={`authentication__input ${
+              errors && errors["emaill"] && "authentication__input_type_error"
+            }`}
             name="email"
             type="email"
             placeholder="E-mail"
-            onChange={handleLoginEmail}
+            onChange={handleChange}
             required
           />
-          <span className="authentication__error"></span>
+          <span className="authentication__error">
+            {errors && errors["email"] && errors["email"]}
+          </span>
         </label>
         <label className="authentication__item">
           Пароль
@@ -48,12 +46,14 @@ function Login(props) {
             minLength="5"
             maxLength="24"
             placeholder="Пароль"
-            onChange={handleLoginPassword}
+            onChange={handleChange}
             required
           />
-          <span className="authentication__error"></span>
+          <span className="authentication__error">
+            {errors && errors["password"] && errors["password"]}
+          </span>
         </label>
-        <button className="authentication__submit" type="submit">
+        <button className="authentication__submit" type="submit" disabled={!isValid}>
           Войти
         </button>
       </form>

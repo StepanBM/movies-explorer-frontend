@@ -77,6 +77,10 @@
   margin-top: 10px;
 }
 
+.authentication__input_type_error {
+  color: #ee3465;
+}
+
 .authentication__submit {
   margin-top: 179px;
   padding: 0;
@@ -96,6 +100,15 @@
 
 .authentication__submit:hover {
   opacity: 0.8;
+}
+
+.authentication__submit:disabled {
+  background: #d6d9de;
+  opacity: 0.3;
+}
+
+.authentication__submit:focus {
+  outline: none;
 }
 
 .authentication__question {

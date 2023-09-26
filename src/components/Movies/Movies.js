@@ -10,50 +10,6 @@ function Movies({ cards, onSaveMovie, onDeleteMovie, saveCard, isLoggedIn }) {
   const [error, setError] = React.useState(false);
   const [errorText, setErrorText] = React.useState("");
 
-  /*React.useEffect(() => {
-    if (isLoggedIn) return;
-    let filterFilms = cards.filter(
-      (film) =>
-        film.nameRU.toLowerCase().includes(valueParams.toLowerCase()) ||
-        film.nameEN.toLowerCase().includes(valueParams.toLowerCase())
-    );
-    if (isShortFilms) {
-      filterFilms = filterFilms.filter((film) => film.duration <= 40);
-    }
-    setFilterFilms(filterFilms);
-  }, [cards, isShortFilms, isLoggedIn, valueParams]);
-
-  function handleShortFilms() {
-    setIsShortFilms(!isShortFilms);
-  }*/
-  // Функция фильтрации карточек в Movies по ключевому слову
-  // function handleFilterFilms() {
-  //   console.log(searchQuery);
-  //   const newCards = cards.filter((card) => {
-  //     return (
-  //       card.nameRU.toLowerCase().includes(searchQuery.toLowerCase()) ||
-  //       card.nameEN.toLowerCase().includes(searchQuery.toLowerCase())
-  //     );
-  //   });
-  //   if (newCards.length === 0) {
-  //     setError(true);
-  //     setErrorText("Ничего не найдено");
-  //   } else if (searchQuery.toLowerCase().length === 0) {
-  //     setError(true);
-  //     setErrorText("Нужно ввести ключевое слово");
-  //   } else {
-  //     setError(false);
-  //   }
-
-  //   localStorage.setItem("filterCards", JSON.stringify(newCards));
-  //   setFilterFilms(JSON.parse(localStorage.getItem("filterCards")));
-  //   localStorage.setItem(
-  //     "valueParams.toLowerCase()",
-  //     JSON.stringify(valueParams.toLowerCase())
-  //   );
-  //   localStorage.setItem("isShortFilms", JSON.stringify(isShortFilms));
-  // }
-
   function handleShortFilms(v) {
     setIsShortFilms(v);
     if (!isShortFilms) {
@@ -94,9 +50,11 @@ function Movies({ cards, onSaveMovie, onDeleteMovie, saveCard, isLoggedIn }) {
   return (
     <section className="movies">
       <SearchForm
-        setSearchQuery={handleSearchFilms} //setSearchValue
-        isShortFilms={isShortFilms} //tumbler
-        setIsShortFilms={handleShortFilms} //setTumbler
+        setSearchQuery={handleSearchFilms}
+        isShortFilms={isShortFilms}
+        setIsShortFilms={handleShortFilms}
+        errorText={errorText}
+        error={error}
       />
       <MoviesCardList
         films={filterFilms}

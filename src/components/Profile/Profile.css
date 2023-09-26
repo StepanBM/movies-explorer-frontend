@@ -77,6 +77,8 @@
 }
 
 .profile__edit {
+  margin: 0 auto;
+  display: flex;
   color: #fff;
   text-align: center;
   font-size: 13px;

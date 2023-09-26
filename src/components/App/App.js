@@ -2,8 +2,6 @@ import React from "react";
 import "./App.css";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import Header from "../Header/Header";
-import Navigation from "../Navigation/Navigation";
-import UserNavigation from "../UserNavigation/UserNavigation.js";
 import Main from "../Main/Main";
 import Footer from "../Footer/Footer";
 import Movies from "../Movies/Movies";
