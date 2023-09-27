@@ -3,13 +3,15 @@ import "./Movies.css";
 import SearchForm from "../SearchForm/SearchForm";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 
-function Movies({ cards, onSaveMovie, onDeleteMovie, saveCard, isLoggedIn }) {
-  console.log(cards);
+import Preloader from "../Preloader/Preloader";
+
+function Movies({ cards, onSaveMovie, onDeleteMovie, saveCard, isLoading }) {
   const [filterFilms, setFilterFilms] = React.useState(cards);
   const [isShortFilms, setIsShortFilms] = React.useState(false);
   const [error, setError] = React.useState(false);
   const [errorText, setErrorText] = React.useState("");
 
+  // Фильтр короткометражек в Movies
   function handleShortFilms(v) {
     setIsShortFilms(v);
     if (!isShortFilms) {
@@ -19,15 +21,15 @@ function Movies({ cards, onSaveMovie, onDeleteMovie, saveCard, isLoggedIn }) {
     }
   }
 
-  //Функция фильтрации карточек в Movies по ключевому слову
+  //Поиск фильмов в Movies
   function handleSearchFilms(v) {
-    const newCards = filterFilms.filter((card) => {
+    const newCards = cards.filter((card) => {
       return (
         card.nameRU.toLowerCase().includes(v.toLowerCase()) ||
         card.nameEN.toLowerCase().includes(v.toLowerCase())
       );
     });
-    console.log(v, newCards);
+    console.log(newCards);
     if (newCards.length === 0) {
       setError(true);
       setErrorText("Ничего не найдено");
@@ -38,13 +40,6 @@ function Movies({ cards, onSaveMovie, onDeleteMovie, saveCard, isLoggedIn }) {
       setError(false);
     }
     setFilterFilms(newCards);
-    // localStorage.setItem("filterCards", JSON.stringify(newCards));
-    // setFilterFilms(JSON.parse(localStorage.getItem("filterCards")));
-    // localStorage.setItem(
-    //   "valueParams.toLowerCase()",
-    //   JSON.stringify(searchQuery.toLowerCase())
-    // );
-    // localStorage.setItem("isShortFilms", JSON.stringify(isShortFilms));
   }
 
   return (
@@ -56,12 +51,16 @@ function Movies({ cards, onSaveMovie, onDeleteMovie, saveCard, isLoggedIn }) {
         errorText={errorText}
         error={error}
       />
-      <MoviesCardList
-        films={filterFilms}
-        onSaveMovie={onSaveMovie}
-        onDeleteMovie={onDeleteMovie}
-        saveCard={saveCard}
-      />
+      {isLoading ? (
+        <Preloader />
+      ) : (
+        <MoviesCardList
+          films={filterFilms}
+          onSaveMovie={onSaveMovie}
+          onDeleteMovie={onDeleteMovie}
+          saveCard={saveCard}
+        />
+      )}
     </section>
   );
 }

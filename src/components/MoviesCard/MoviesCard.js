@@ -17,11 +17,7 @@ function MoviesCard({ card, onSaveMovie, onDeleteMovie, save }) {
       });
   }, [save, card, location.pathname]);
 
-  /*function onClickSaveCard() {
-    setSaveCard(!saveCard);
-  }*/
-
-  //обработчик клика по кнопке лайка
+  //Обработчик клика по кнопке лайка
   function handleLikeClick() {
     if (saveCard) {
       onDeleteMovie(save.filter((item) => item.movieId === card.id)[0]);
@@ -30,7 +26,7 @@ function MoviesCard({ card, onSaveMovie, onDeleteMovie, save }) {
     }
   }
 
-  //обработчик клика по кнопке удаления/дизлайка
+  //Обработчик клика по кнопке удаления/карточки
   function handleDeleteClick() {
     onDeleteMovie(card);
   }

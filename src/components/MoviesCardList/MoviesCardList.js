@@ -15,10 +15,6 @@ function MoviesCardList({ films, onSaveMovie, onDeleteMovie, saveCard }) {
   React.useEffect(() => {
     displayMoviesFromWidth();
 
-    setTimeout(() => {
-      window.addEventListener("resize", displayMoviesFromWidth);
-    }, 3000);
-
     return () => {
       window.removeEventListener("resize", displayMoviesFromWidth);
     };
@@ -36,10 +32,9 @@ function MoviesCardList({ films, onSaveMovie, onDeleteMovie, saveCard }) {
       setAddingNumberOfMovies(2);
     }
     const localMovies = JSON.parse(localStorage.getItem("movies"));
-    setIsButtonMore(localMovies && localMovies.length > addingNumberOfMovies);
+    setIsButtonMore(localMovies);
   }
 
-  // обработчик клика по кнопке "Еще"
   function handleMoreBtnClick() {
     const newAmountx = addingNumberOfMovies + isInitialDisplayOfMovies;
     setIsInitialDisplayOfMovies(newAmountx);
@@ -85,6 +80,7 @@ function MoviesCardList({ films, onSaveMovie, onDeleteMovie, saveCard }) {
       <ul className="list-movies__container">
         {location.pathname === "/movies" ? getMovies() : getSaveMovies()}
       </ul>
+
       {location.pathname === "/movies" && !isButtonMore ? (
         <button className="list-movies__more" type="button" onClick={onMoreBtnClick}>
           Ещё

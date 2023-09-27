@@ -44,10 +44,14 @@ function App() {
   const [infoTooltip, setInfoTooltip] = React.useState(false);
   const [popupImage, setPopupImage] = React.useState("");
 
+  const [isLoading, setIsLoading] = React.useState(true);
+
   function onRegister(name, email, password) {
+    setIsLoading(true);
     auth
       .registerNewUser(name, email, password)
       .then(() => {
+        setIsLoggedIn(true);
         setPopupImage(approved);
         setPopupAnswer("Вы успешно зарегистрировались!");
         handleInfoTooltip();
@@ -57,10 +61,12 @@ function App() {
         setPopupImage(wrong);
         setPopupAnswer("Что-то пошло не так! Попробуйте ещё раз.");
         handleInfoTooltip();
-      });
+      })
+      .finally(() => setIsLoading(false));
   }
 
   function onLogin(email, password) {
+    setIsLoading(true);
     auth
       .loginUser(email, password)
       .then((res) => {
@@ -75,7 +81,8 @@ function App() {
         setPopupImage(wrong);
         setPopupAnswer("Что-то пошло не так! Попробуйте ещё раз.");
         handleInfoTooltip();
-      });
+      })
+      .finally(() => setIsLoading(false));
   }
 
   function handleInfoTooltip() {
@@ -96,8 +103,10 @@ function App() {
           if (res) {
             setIsLoggedIn(true);
             setCurrentUser({ email: res.email, name: res.name, _id: res._id });
+            setIsLoading(false);
           } else {
             setIsLoggedIn(false);
+            setIsLoading(false);
           }
         })
         .catch((err) => {
@@ -193,104 +202,109 @@ function App() {
   return (
     <div className="App">
       <CurrentUserContext.Provider value={currentUser}>
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <>
-                <Header isLoggedIn={isLoggedIn} />
-                <Main
-                  component={
-                    <>
-                      <Promo />
-                      <AboutProject />
-                      <Techs />
-                      <AboutMe />
-                      <Portfolio />
-                    </>
-                  }
-                />
-                <Footer />
-              </>
-            }
-          />
-          <Route
-            path="/movies"
-            element={
-              <>
-                <Header isLoggedIn={isLoggedIn} />
-                <Main
-                  component={
-                    <>
-                      <ProtectedRouteElement
-                        path="/movies"
-                        element={Movies}
-                        cards={currentCards}
-                        onSaveMovie={handleSaveMovie}
-                        onDeleteMovie={handleDeleteMovie}
-                        saveCard={saveCard}
-                        isLoggedIn={isLoggedIn}
-                      />
-                    </>
-                  }
-                />
-                <Footer />
-              </>
-            }
-          />
-          <Route
-            path="/saved-movies"
-            element={
-              <>
-                <Header isLoggedIn={isLoggedIn} />
-                <Main
-                  component={
-                    <>
-                      <ProtectedRouteElement
-                        path="/saved-movies"
-                        element={SavedMovies}
-                        isLoggedIn={isLoggedIn}
-                        saveCard={saveCard}
-                        onDeleteMovie={handleDeleteMovie}
-                      />
-                    </>
-                  }
-                />
-                <Footer />
-              </>
-            }
-          />
-          <Route
-            path="/signup"
-            element={<Main component={<Register onRegister={onRegister} />} />}
-          />
-          <Route
-            path="/signin"
-            element={<Main component={<Login onLogin={onLogin} />} />}
-          />
-          <Route
-            path="/profile"
-            element={
-              <>
-                <Header isLoggedIn={isLoggedIn} />
-                <Main
-                  component={
-                    <>
-                      <ProtectedRouteElement
-                        path="/profile"
-                        element={Profile}
-                        isLoggedIn={isLoggedIn}
-                        onUpdateUser={handleUpdateUser}
-                        onSignOut={logOutOfYourAccount}
-                      />
-                    </>
-                  }
-                />
-              </>
-            }
-          />
-          <Route path="/*" element={<Main component={<PageNotFound />} />} />
-        </Routes>
+        {isLoading ? (
+          <Preloader />
+        ) : (
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <>
+                  <Header isLoggedIn={isLoggedIn} />
+                  <Main
+                    component={
+                      <>
+                        <Promo />
+                        <AboutProject />
+                        <Techs />
+                        <AboutMe />
+                        <Portfolio />
+                      </>
+                    }
+                  />
+                  <Footer />
+                </>
+              }
+            />
+            <Route
+              path="/movies"
+              element={
+                <>
+                  <Header isLoggedIn={isLoggedIn} />
+                  <Main
+                    component={
+                      <>
+                        <ProtectedRouteElement
+                          path="/movies"
+                          isLoggedIn={isLoggedIn}
+                          element={Movies}
+                          cards={currentCards}
+                          onSaveMovie={handleSaveMovie}
+                          onDeleteMovie={handleDeleteMovie}
+                          saveCard={saveCard}
+                          isLoading={isLoading}
+                        />
+                      </>
+                    }
+                  />
+                  <Footer />
+                </>
+              }
+            />
+            <Route
+              path="/saved-movies"
+              element={
+                <>
+                  <Header isLoggedIn={isLoggedIn} />
+                  <Main
+                    component={
+                      <>
+                        <ProtectedRouteElement
+                          path="/saved-movies"
+                          element={SavedMovies}
+                          isLoggedIn={isLoggedIn}
+                          saveCard={saveCard}
+                          onDeleteMovie={handleDeleteMovie}
+                        />
+                      </>
+                    }
+                  />
+                  <Footer />
+                </>
+              }
+            />
+            <Route
+              path="/signup"
+              element={<Main component={<Register onRegister={onRegister} />} />}
+            />
+            <Route
+              path="/signin"
+              element={<Main component={<Login onLogin={onLogin} />} />}
+            />
+            <Route
+              path="/profile"
+              element={
+                <>
+                  <Header isLoggedIn={isLoggedIn} />
+                  <Main
+                    component={
+                      <>
+                        <ProtectedRouteElement
+                          path="/profile"
+                          element={Profile}
+                          isLoggedIn={isLoggedIn}
+                          onUpdateUser={handleUpdateUser}
+                          onSignOut={logOutOfYourAccount}
+                        />
+                      </>
+                    }
+                  />
+                </>
+              }
+            />
+            <Route path="/*" element={<Main component={<PageNotFound />} />} />
+          </Routes>
+        )}
 
         <InfoTooltip
           title={popupAnswer}

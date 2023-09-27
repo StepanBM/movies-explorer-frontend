@@ -28,7 +28,7 @@ function SearchForm({ setSearchQuery, isShortFilms, setIsShortFilms, errorText, 
           />
           <button className="search__button" type="submit"></button>
         </div>
-        {error ? <p className="search__error">{errorText}</p> : ""}
+        {error ? <span className="search__error">{errorText}</span> : ""}
         <FilterCheckbox onChange={handleChangeTumbler} checked={isShortFilms} />
       </form>
     </section>
