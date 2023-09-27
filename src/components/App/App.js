@@ -18,7 +18,6 @@ import AboutProject from "../AboutProject/AboutProject";
 import Techs from "../Techs/Techs";
 import AboutMe from "../AboutMe/AboutMe";
 import Portfolio from "../Portfolio/Portfolio";
-import Preloader from "../Preloader/Preloader";
 import ProtectedRouteElement from "../ProtectedRoute/ProtectedRoute";
 import * as auth from "../../utils/auth";
 
@@ -26,6 +25,7 @@ import mainApi from "../../utils/MainApi";
 import moviesApi from "../../utils/MoviesApi";
 
 import InfoTooltip from "../InfoTooltip/InfoTooltip";
+import Preloader from "../Preloader/Preloader";
 
 import { CurrentUserContext } from "../../contexts/currentUserContext";
 
@@ -44,7 +44,7 @@ function App() {
   const [infoTooltip, setInfoTooltip] = React.useState(false);
   const [popupImage, setPopupImage] = React.useState("");
 
-  const [isLoading, setIsLoading] = React.useState(true);
+  const [isLoading, setIsLoading] = React.useState(false);
 
   function onRegister(name, email, password) {
     setIsLoading(true);
@@ -103,10 +103,8 @@ function App() {
           if (res) {
             setIsLoggedIn(true);
             setCurrentUser({ email: res.email, name: res.name, _id: res._id });
-            setIsLoading(false);
           } else {
             setIsLoggedIn(false);
-            setIsLoading(false);
           }
         })
         .catch((err) => {
@@ -117,6 +115,7 @@ function App() {
 
   React.useEffect(() => {
     if (isLoggedIn === true) {
+      setIsLoading(true);
       mainApi
         .getUserInfo()
         .then((user) => {
@@ -124,6 +123,9 @@ function App() {
         })
         .catch((err) => {
           console.error(err);
+        })
+        .finally(() => {
+          setIsLoading(false);
         });
     }
     return;
@@ -131,6 +133,7 @@ function App() {
 
   React.useEffect(() => {
     if (isLoggedIn === true) {
+      setIsLoading(true);
       mainApi
         .getMovies()
         .then((card) => {
@@ -138,6 +141,9 @@ function App() {
         })
         .catch((err) => {
           console.error(err);
+        })
+        .finally(() => {
+          setIsLoading(false);
         });
     }
     return;
@@ -159,6 +165,7 @@ function App() {
 
   React.useEffect(() => {
     if (isLoggedIn === true) {
+      setIsLoading(true);
       moviesApi
         .getInitialMovies()
         .then((card) => {
@@ -166,6 +173,9 @@ function App() {
         })
         .catch((err) => {
           console.error(err);
+        })
+        .finally(() => {
+          setIsLoading(false);
         });
     }
     return;
@@ -265,6 +275,7 @@ function App() {
                           isLoggedIn={isLoggedIn}
                           saveCard={saveCard}
                           onDeleteMovie={handleDeleteMovie}
+                          isLoading={isLoading}
                         />
                       </>
                     }
@@ -305,7 +316,6 @@ function App() {
             <Route path="/*" element={<Main component={<PageNotFound />} />} />
           </Routes>
         )}
-
         <InfoTooltip
           title={popupAnswer}
           image={popupImage}

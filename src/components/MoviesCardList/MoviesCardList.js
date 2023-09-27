@@ -3,7 +3,9 @@ import "./MoviesCardList.css";
 import MoviesCard from "../MoviesCard/MoviesCard";
 import { useLocation } from "react-router-dom";
 
-function MoviesCardList({ films, onSaveMovie, onDeleteMovie, saveCard }) {
+import Preloader from "../Preloader/Preloader";
+
+function MoviesCardList({ films, onSaveMovie, onDeleteMovie, saveCard, isLoading }) {
   let location = useLocation();
 
   const screenWidth = React.useRef(window.innerWidth);
@@ -76,19 +78,25 @@ function MoviesCardList({ films, onSaveMovie, onDeleteMovie, saveCard }) {
   }
 
   return (
-    <section className="list-movies">
-      <ul className="list-movies__container">
-        {location.pathname === "/movies" ? getMovies() : getSaveMovies()}
-      </ul>
-
-      {location.pathname === "/movies" && !isButtonMore ? (
-        <button className="list-movies__more" type="button" onClick={onMoreBtnClick}>
-          Ещё
-        </button>
+    <>
+      {isLoading ? (
+        <Preloader />
       ) : (
-        ""
+        <section className="list-movies">
+          <ul className="list-movies__container">
+            {location.pathname === "/movies" ? getMovies() : getSaveMovies()}
+          </ul>
+
+          {location.pathname === "/movies" && !isButtonMore ? (
+            <button className="list-movies__more" type="button" onClick={onMoreBtnClick}>
+              Ещё
+            </button>
+          ) : (
+            ""
+          )}
+        </section>
       )}
-    </section>
+    </>
   );
 }
 

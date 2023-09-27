@@ -3,8 +3,6 @@ import "./Movies.css";
 import SearchForm from "../SearchForm/SearchForm";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 
-import Preloader from "../Preloader/Preloader";
-
 function Movies({ cards, onSaveMovie, onDeleteMovie, saveCard, isLoading }) {
   const [filterFilms, setFilterFilms] = React.useState(cards);
   const [isShortFilms, setIsShortFilms] = React.useState(false);
@@ -29,7 +27,7 @@ function Movies({ cards, onSaveMovie, onDeleteMovie, saveCard, isLoading }) {
         card.nameEN.toLowerCase().includes(v.toLowerCase())
       );
     });
-    console.log(newCards);
+
     if (newCards.length === 0) {
       setError(true);
       setErrorText("Ничего не найдено");
@@ -51,16 +49,14 @@ function Movies({ cards, onSaveMovie, onDeleteMovie, saveCard, isLoading }) {
         errorText={errorText}
         error={error}
       />
-      {isLoading ? (
-        <Preloader />
-      ) : (
-        <MoviesCardList
-          films={filterFilms}
-          onSaveMovie={onSaveMovie}
-          onDeleteMovie={onDeleteMovie}
-          saveCard={saveCard}
-        />
-      )}
+
+      <MoviesCardList
+        films={filterFilms}
+        onSaveMovie={onSaveMovie}
+        onDeleteMovie={onDeleteMovie}
+        saveCard={saveCard}
+        isLoading={isLoading}
+      />
     </section>
   );
 }
