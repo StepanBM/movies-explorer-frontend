@@ -181,7 +181,6 @@ function App() {
     return;
   }, [isLoggedIn]);
 
-  // обработчик добавления фильма в избранное
   function handleSaveMovie(data) {
     mainApi
       .addMovies(data)
@@ -191,7 +190,6 @@ function App() {
       .catch((err) => console.log(err));
   }
 
-  // обработчик удаления фильма из избранного
   function handleDeleteMovie(filmDelete) {
     mainApi
       .removeMovies(filmDelete._id)
@@ -275,7 +273,6 @@ function App() {
                           isLoggedIn={isLoggedIn}
                           saveCard={saveCard}
                           onDeleteMovie={handleDeleteMovie}
-                          isLoading={isLoading}
                         />
                       </>
                     }
