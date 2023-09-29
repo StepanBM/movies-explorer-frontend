@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "./Profile.css";
 
-import { useValidationForm } from "../../utils/Validation";
+import { useValidationForm, EMAIL_PATTERN } from "../../utils/Validation";
 import { CurrentUserContext } from "../../contexts/currentUserContext";
 
 function Profile({ onUpdateUser, onSignOut }) {
@@ -61,6 +61,7 @@ function Profile({ onUpdateUser, onSignOut }) {
               placeholder="E-mail"
               onChange={handleChange}
               required
+              pattern={EMAIL_PATTERN}
             />
             <span className="profile__error">{errors["email"]}</span>
           </div>

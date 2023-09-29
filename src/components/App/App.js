@@ -191,6 +191,7 @@ function App() {
       .addMovies(data)
       .then((newCard) => {
         setSaveCard([newCard, ...saveCard]);
+        localStorage.setItem("saved-movies", JSON.stringify([newCard, ...saveCard]));
       })
       .catch((err) => console.log(err));
   }
@@ -199,9 +200,7 @@ function App() {
     mainApi
       .removeMovies(filmDelete._id)
       .then(() => {
-        setSaveCard((item) =>
-          item.filter((card) => (card._id === filmDelete._id ? false : true))
-        );
+        setSaveCard(saveCard.filter((card) => card._id !== filmDelete._id));
       })
       .catch((err) => console.log(err));
   }

@@ -2,7 +2,7 @@ import React from "react";
 import logo from "../../images/logo.svg";
 import { Link } from "react-router-dom";
 import "./Login.css";
-import { useValidationForm } from "../../utils/Validation";
+import { useValidationForm, EMAIL_PATTERN } from "../../utils/Validation";
 
 function Login({ onLogin }) {
   const { values, handleChange, errors, isValid } = useValidationForm({});
@@ -13,8 +13,6 @@ function Login({ onLogin }) {
       onLogin(values);
     }
   }
-
-  const EMAIL_PATTERN = "[a-zA-Z0-9_.]+@[a-zA-Z0-9_]+\\.[a-z]{2,}";
 
   return (
     <section className="authentication">

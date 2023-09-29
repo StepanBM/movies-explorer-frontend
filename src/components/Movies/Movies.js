@@ -47,7 +47,7 @@ function Movies({ cards, onSaveMovie, onDeleteMovie, saveCard, isLoggedIn, isLoa
   // }
 
   // function filterMovies() {
-  //   let newCards = filterFilms.filter((card) => {
+  //   let newCards = cards.filter((card) => {
   //     return (
   //       card.nameRU.toLowerCase().includes(searchQuery.toLowerCase()) ||
   //       card.nameEN.toLowerCase().includes(searchQuery.toLowerCase())
@@ -68,9 +68,10 @@ function Movies({ cards, onSaveMovie, onDeleteMovie, saveCard, isLoggedIn, isLoa
     }
   }
 
+  //Функция фильтрации карточек в Movies по ключевому слову
   function handleSearchFilms(v) {
     const inputValueFilms = v.toLowerCase();
-    const newCards = filterFilms.filter((card) => {
+    const newCards = cards.filter((card) => {
       return (
         card.nameRU.toLowerCase().includes(inputValueFilms) ||
         card.nameEN.toLowerCase().includes(inputValueFilms)
@@ -80,7 +81,7 @@ function Movies({ cards, onSaveMovie, onDeleteMovie, saveCard, isLoggedIn, isLoa
     if (newCards.length === 0) {
       setError(true);
       setErrorText("Ничего не найдено");
-    } else if (v.toLowerCase().length === 0) {
+    } else if (inputValueFilms.length === 0) {
       setError(true);
       setErrorText("Нужно ввести ключевое слово");
     } else {

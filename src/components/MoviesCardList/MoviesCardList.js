@@ -16,7 +16,9 @@ function MoviesCardList({ films, onSaveMovie, onDeleteMovie, saveCard, isLoading
 
   React.useEffect(() => {
     displayMoviesFromWidth();
-    window.addEventListener("resize", displayMoviesFromWidth);
+    setTimeout(() => {
+      window.addEventListener("resize", displayMoviesFromWidth);
+    }, 3000);
     return () => window.removeEventListener("resize", displayMoviesFromWidth);
   }, []);
 
@@ -31,6 +33,7 @@ function MoviesCardList({ films, onSaveMovie, onDeleteMovie, saveCard, isLoading
       setIsInitialDisplayOfMovies(5);
       setAddingNumberOfMovies(2);
     }
+
     const localMovies = JSON.parse(localStorage.getItem("movies"));
     setIsButtonMore(localMovies);
   }
