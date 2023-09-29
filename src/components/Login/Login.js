@@ -14,6 +14,8 @@ function Login({ onLogin }) {
     }
   }
 
+  const EMAIL_PATTERN = "[a-zA-Z0-9_.]+@[a-zA-Z0-9_]+\\.[a-z]{2,}";
+
   return (
     <section className="authentication">
       <Link to="/">
@@ -30,6 +32,7 @@ function Login({ onLogin }) {
             placeholder="E-mail"
             onChange={handleChange}
             required
+            pattern={EMAIL_PATTERN}
           />
           <span className="authentication__error">{errors["email"]}</span>
         </label>

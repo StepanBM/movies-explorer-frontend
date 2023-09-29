@@ -17,13 +17,8 @@
   width: 96px;
   border-radius: 10px;
   background: #303030;
-  margin-right: 10px;
   transition: background-color 0.5s linear;
   cursor: pointer;
-}
-
-.navigation__point:last-of-type {
-  margin-right: 0;
 }
 
 .navigation__point:hover {
@@ -31,12 +26,18 @@
 }
 
 .navigation__link {
+  margin: 0;
   text-decoration: none;
   border-radius: 10px;
   color: #fff;
   font-size: 12px;
   font-weight: 500;
   line-height: 16px;
+  margin-right: 10px;
+}
+
+.navigation__link:last-of-type {
+  margin-right: 0;
 }
 
 @media screen and (max-width: 800px) {
@@ -62,6 +63,11 @@
   .navigation__point {
     width: 82px;
     height: 26px;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .navigation__link {
     margin-right: 6px;
   }
 }

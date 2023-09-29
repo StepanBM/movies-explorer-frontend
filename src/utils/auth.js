@@ -7,23 +7,23 @@ function checkResponse(res) {
 
 export const BASE_URL = "https://api.stepanmovies.nomoreparties.co";
 
-export function registerNewUser(data) {
+export function registerNewUser(name, email, password) {
   return fetch(`${BASE_URL}/signup`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(data),
+    body: JSON.stringify(name, email, password),
   }).then(checkResponse);
 }
 
-export function loginUser(data) {
+export function loginUser(email, password) {
   return fetch(`${BASE_URL}/signin`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(data),
+    body: JSON.stringify(email, password),
   }).then(checkResponse);
 }
 

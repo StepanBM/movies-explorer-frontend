@@ -5,12 +5,12 @@ import FilterCheckbox from "../FilterCheckbox/FilterCheckbox";
 function SearchForm({ setSearchQuery, isShortFilms, setIsShortFilms, errorText, error }) {
   const [search, setSearch] = React.useState("");
 
-  const handleSearch = (e) => {
-    e.preventDefault();
+  const handleSearch = (evt) => {
+    evt.preventDefault();
     setSearchQuery(search);
   };
 
-  const handleChangeSearchQuery = (e) => setSearch(e.target.value);
+  const handleChangeSearchQuery = (evt) => setSearch(evt.target.value);
 
   const handleChangeTumbler = () => setIsShortFilms(!isShortFilms);
 

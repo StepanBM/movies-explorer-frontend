@@ -9,13 +9,12 @@ function MoviesCard({ card, onSaveMovie, onDeleteMovie, save }) {
   const [saveCard, setSaveCard] = React.useState(false);
 
   React.useEffect(() => {
-    if (location.pathname === "/movies")
-      save.map((saveMovies) => {
-        if (saveMovies.movieId === card.id) {
-          setSaveCard(true);
-        }
-      });
-  }, [save, card, location.pathname]);
+    save.map((saveMovies) => {
+      if (saveMovies.movieId === card.id) {
+        setSaveCard(true);
+      }
+    });
+  }, [save, card]);
 
   //Обработчик клика по кнопке лайка
   function handleLikeClick() {

@@ -14,6 +14,8 @@ function Register({ onRegister }) {
     }
   }
 
+  const EMAIL_PATTERN = "[a-zA-Z0-9_.]+@[a-zA-Z0-9_]+\\.[a-z]{2,}";
+
   return (
     <section className="registration">
       <Link to="/">
@@ -44,6 +46,7 @@ function Register({ onRegister }) {
             placeholder="E-mail"
             onChange={handleChange}
             required
+            pattern={EMAIL_PATTERN}
           />
           <span className="registration__error">{errors["email"]}</span>
         </label>

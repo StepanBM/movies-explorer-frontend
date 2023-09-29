@@ -16,10 +16,8 @@ function MoviesCardList({ films, onSaveMovie, onDeleteMovie, saveCard, isLoading
 
   React.useEffect(() => {
     displayMoviesFromWidth();
-
-    return () => {
-      window.removeEventListener("resize", displayMoviesFromWidth);
-    };
+    window.addEventListener("resize", displayMoviesFromWidth);
+    return () => window.removeEventListener("resize", displayMoviesFromWidth);
   }, []);
 
   function displayMoviesFromWidth() {
