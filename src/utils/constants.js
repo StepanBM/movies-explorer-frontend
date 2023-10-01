@@ -1,0 +1,10 @@
+export const MOVIES_SHORT = 40;
+export const MOVIE_SCREEN_BIG = 1099;
+export const MOVIE_SCREEN_MIDDLE = 689;
+export const MOVIE_SCREEN_MOBILE = 320;
+export const MOVIE_SCREEN_FIVE = 5;
+export const MOVIE_SCREEN_EIGHT = 8;
+export const MOVIE_SCREEN_TWELVE = 12;
+export const MOVIE_ADD_TWO = 2;
+export const MOVIE_ADD_THREE = 3;
+export const MOVIE_SCREEN = 0;

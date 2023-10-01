@@ -1,54 +1,70 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./MoviesCardList.css";
 import MoviesCard from "../MoviesCard/MoviesCard";
 import { useLocation } from "react-router-dom";
 
 import Preloader from "../Preloader/Preloader";
 
+import {
+  MOVIE_SCREEN_BIG,
+  MOVIE_SCREEN_MIDDLE,
+  MOVIE_SCREEN_MOBILE,
+  MOVIE_SCREEN_FIVE,
+  MOVIE_SCREEN_EIGHT,
+  MOVIE_SCREEN_TWELVE,
+  MOVIE_ADD_TWO,
+  MOVIE_ADD_THREE,
+  MOVIE_SCREEN,
+} from "../../utils/constants";
+
 function MoviesCardList({ films, onSaveMovie, onDeleteMovie, saveCard, isLoading }) {
   let location = useLocation();
 
   const screenWidth = React.useRef(window.innerWidth);
 
-  const [isInitialDisplayOfMovies, setIsInitialDisplayOfMovies] = React.useState(12);
-  const [addingNumberOfMovies, setAddingNumberOfMovies] = React.useState(3);
-  const [isButtonMore, setIsButtonMore] = React.useState(true);
+  const [isInitialDisplayOfMovies, setIsInitialDisplayOfMovies] =
+    React.useState(MOVIE_SCREEN_TWELVE);
+  const [addingNumberOfMovies, setAddingNumberOfMovies] = React.useState(MOVIE_SCREEN);
+  const [isButtonMore, setIsButtonMore] = React.useState(false);
 
   React.useEffect(() => {
     displayMoviesFromWidth();
-    setTimeout(() => {
-      window.addEventListener("resize", displayMoviesFromWidth);
-    }, 3000);
-    return () => window.removeEventListener("resize", displayMoviesFromWidth);
+    window.addEventListener("resize", displayMoviesFromWidth);
   }, []);
 
-  function displayMoviesFromWidth() {
-    if (screenWidth.current > 1099 && screenWidth.current < 1279) {
-      setIsInitialDisplayOfMovies(12);
-      setAddingNumberOfMovies(3);
-    } else if (screenWidth.current <= 1099 && screenWidth.current > 689) {
-      setIsInitialDisplayOfMovies(8);
-      setAddingNumberOfMovies(2);
-    } else if (screenWidth.current <= 689 && screenWidth.current >= 320) {
-      setIsInitialDisplayOfMovies(5);
-      setAddingNumberOfMovies(2);
-    }
+  useEffect(() => {
+    setIsButtonMore(films?.length > isInitialDisplayOfMovies);
+  }, [films?.length, isInitialDisplayOfMovies]);
 
-    const localMovies = JSON.parse(localStorage.getItem("movies"));
-    setIsButtonMore(localMovies);
+  function displayMoviesFromWidth() {
+    if (screenWidth.current > MOVIE_SCREEN_BIG) {
+      setIsInitialDisplayOfMovies(MOVIE_SCREEN_TWELVE);
+      setAddingNumberOfMovies(MOVIE_ADD_THREE);
+      if (films.length < MOVIE_SCREEN_TWELVE) setIsButtonMore(MOVIE_SCREEN);
+    } else if (
+      screenWidth.current <= MOVIE_SCREEN_BIG &&
+      screenWidth.current > MOVIE_SCREEN_MIDDLE
+    ) {
+      setIsInitialDisplayOfMovies(MOVIE_SCREEN_EIGHT);
+      setAddingNumberOfMovies(MOVIE_ADD_TWO);
+      if (films.length < MOVIE_SCREEN_EIGHT) setIsButtonMore(MOVIE_SCREEN);
+    } else if (
+      screenWidth.current <= MOVIE_SCREEN_MIDDLE &&
+      screenWidth.current >= MOVIE_SCREEN_MOBILE
+    ) {
+      setIsInitialDisplayOfMovies(MOVIE_SCREEN_FIVE);
+      setAddingNumberOfMovies(MOVIE_ADD_TWO);
+      if (films.length < MOVIE_SCREEN_FIVE) setIsButtonMore(MOVIE_SCREEN);
+    }
   }
 
   function handleMoreBtnClick() {
     const newAmountx = addingNumberOfMovies + isInitialDisplayOfMovies;
     setIsInitialDisplayOfMovies(newAmountx);
-    if (newAmountx >= films.length) {
-      setIsButtonMore(true);
-    } else {
-      setIsButtonMore(false);
-    }
   }
 
   function onMoreBtnClick() {
+    displayMoviesFromWidth();
     handleMoreBtnClick(addingNumberOfMovies);
   }
 
@@ -61,7 +77,7 @@ function MoviesCardList({ films, onSaveMovie, onDeleteMovie, saveCard, isLoading
           card={item}
           onSaveMovie={onSaveMovie}
           onDeleteMovie={onDeleteMovie}
-          save={saveCard}
+          saveCardId={saveCard}
         />
       ));
   }
@@ -73,7 +89,7 @@ function MoviesCardList({ films, onSaveMovie, onDeleteMovie, saveCard, isLoading
         card={item}
         onSaveMovie={onSaveMovie}
         onDeleteMovie={onDeleteMovie}
-        save={saveCard}
+        saveCardId={saveCard}
       />
     ));
   }
@@ -85,10 +101,12 @@ function MoviesCardList({ films, onSaveMovie, onDeleteMovie, saveCard, isLoading
       ) : (
         <section className="list-movies">
           <ul className="list-movies__container">
-            {location.pathname === "/movies" ? getMovies() : getSaveMovies()}
+            {location.pathname === "/movies"
+              ? films && getMovies()
+              : films && getSaveMovies()}
           </ul>
 
-          {location.pathname === "/movies" && !isButtonMore ? (
+          {location.pathname === "/movies" && isButtonMore ? (
             <button className="list-movies__more" type="button" onClick={onMoreBtnClick}>
               Ещё
             </button>

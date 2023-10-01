@@ -36,8 +36,11 @@ function App() {
   const navigate = useNavigate();
   //Данные пользователя
   const [currentUser, setCurrentUser] = React.useState({});
-  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+  const [isLoggedIn, setIsLoggedIn] = React.useState(
+    localStorage.getItem("jwt") || false
+  );
   const [currentCards, setCurrentCards] = React.useState([]);
+  const [initialCards, setInitialCards] = React.useState([]);
   const [saveCard, setSaveCard] = React.useState([]);
 
   const [popupAnswer, setPopupAnswer] = React.useState("");
@@ -47,13 +50,16 @@ function App() {
   const [isLoading, setIsLoading] = React.useState(false);
 
   function onRegister(name, email, password) {
+    //console.log(name, email, password);
     auth
       .registerNewUser(name, email, password)
       .then(() => {
+        // console.log(data);
+        //console.log(name);
         setPopupImage(approved);
         setPopupAnswer("Вы успешно зарегистрировались!");
         handleInfoTooltip();
-        //onLogin(data.email, password);
+        // onLogin(data.email, password);
         navigate("/signin");
       })
       .catch(() => {
@@ -64,11 +70,15 @@ function App() {
   }
 
   function onLogin(email, password) {
+    // console.log(email, password, "onLogin");
     auth
       .loginUser(email, password)
       .then((res) => {
         localStorage.setItem("jwt", res.token);
-        //setCurrentUser({ name: res.name, email: res.email });
+        setCurrentUser({
+          name: res.name,
+          email: res.email,
+        });
         setIsLoggedIn(true);
         setPopupImage(approved);
         setPopupAnswer("Добро пожаловать!");
@@ -79,6 +89,7 @@ function App() {
         setPopupImage(wrong);
         setPopupAnswer("Что-то пошло не так! Попробуйте ещё раз.");
         handleInfoTooltip();
+        setIsLoggedIn(false);
       });
   }
 
@@ -92,6 +103,7 @@ function App() {
   }
 
   React.useEffect(() => {
+    // localStorage.removeItem('moviesCount')
     const jwt = localStorage.getItem("jwt");
     if (jwt) {
       auth
@@ -99,10 +111,14 @@ function App() {
         .then((res) => {
           if (res) {
             setIsLoggedIn(true);
-            setCurrentUser({ name: res.name, email: res.email });
+            setCurrentUser({
+              name: res.name,
+              email: res.email,
+            });
             //navigate("/movies");
           } else {
             setIsLoggedIn(false);
+            //navigate("/");
           }
         })
         .catch((err) => {
@@ -119,6 +135,24 @@ function App() {
         .then((user) => {
           setIsLoggedIn(true);
           setCurrentUser(user);
+        })
+        .catch((err) => {
+          console.error(err);
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+    }
+    return;
+  }, [isLoggedIn]);
+
+  React.useEffect(() => {
+    if (isLoggedIn === true) {
+      setIsLoading(true);
+      moviesApi
+        .getInitialMovies()
+        .then((card) => {
+          setInitialCards(card);
         })
         .catch((err) => {
           console.error(err);
@@ -168,24 +202,6 @@ function App() {
       });
   }
 
-  React.useEffect(() => {
-    if (isLoggedIn === true) {
-      setIsLoading(true);
-      moviesApi
-        .getInitialMovies()
-        .then((card) => {
-          setCurrentCards(card);
-        })
-        .catch((err) => {
-          console.error(err);
-        })
-        .finally(() => {
-          setIsLoading(false);
-        });
-    }
-    return;
-  }, [isLoggedIn]);
-
   function handleSaveMovie(data) {
     mainApi
       .addMovies(data)
@@ -199,8 +215,16 @@ function App() {
   function handleDeleteMovie(filmDelete) {
     mainApi
       .removeMovies(filmDelete._id)
-      .then(() => {
-        setSaveCard(saveCard.filter((card) => card._id !== filmDelete._id));
+      .then((res) => {
+        const saveCardArray = saveCard.filter((card) => {
+          return card._id !== filmDelete._id;
+        });
+        setSaveCard(
+          saveCard.filter((card) => {
+            return card._id !== filmDelete._id;
+          })
+        );
+        localStorage.setItem("saved-movies", JSON.stringify(saveCardArray));
       })
       .catch((err) => console.log(err));
   }
@@ -209,7 +233,7 @@ function App() {
     setIsLoggedIn(false);
     setCurrentUser({});
     setCurrentCards([]);
-    localStorage.removeItem("jwt");
+    localStorage.clear();
     navigate("/");
   }
 
@@ -257,6 +281,7 @@ function App() {
                           onDeleteMovie={handleDeleteMovie}
                           saveCard={saveCard}
                           isLoading={isLoading}
+                          initialCards={initialCards}
                         />
                       </>
                     }
@@ -289,11 +314,17 @@ function App() {
             />
             <Route
               path="/signup"
-              element={<Main component={<Register onRegister={onRegister} />} />}
+              element={
+                <Main
+                  component={<Register onRegister={onRegister} isLoggedIn={isLoggedIn} />}
+                />
+              }
             />
             <Route
               path="/signin"
-              element={<Main component={<Login onLogin={onLogin} />} />}
+              element={
+                <Main component={<Login onLogin={onLogin} isLoggedIn={isLoggedIn} />} />
+              }
             />
             <Route
               path="/profile"

@@ -1,77 +1,46 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./Movies.css";
 import SearchForm from "../SearchForm/SearchForm";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 
-function Movies({ cards, onSaveMovie, onDeleteMovie, saveCard, isLoggedIn, isLoading }) {
-  const [filterFilms, setFilterFilms] = React.useState(cards);
-  const [searchQuery, setSearchQuery] = React.useState("");
-  const [isShortFilms, setIsShortFilms] = React.useState(false);
+import { MOVIES_SHORT } from "../../utils/constants";
+
+function Movies({ onSaveMovie, onDeleteMovie, saveCard, isLoading, initialCards }) {
+  const [filterFilms, setFilterFilms] = React.useState(
+    JSON.parse(localStorage.getItem("filteredFilms")) || []
+  );
+  const [shortFilms, setShortFilms] = React.useState(
+    JSON.parse(localStorage.getItem("shortFilms")) || []
+  );
+  //const [searchQuery, setSearchQuery] = React.useState("");
+  const [isShortFilms, setIsShortFilms] = React.useState(
+    localStorage.getItem("checkbox") === "true" ? true : false
+  );
   const [error, setError] = React.useState(false);
   const [errorText, setErrorText] = React.useState("");
-  //localStorage.setItem("page", "/movies");
-  // Фильтр короткометражек в Movies
-  // function handleShortFilms(v) {
-  //   setIsShortFilms(v);
-  //   // if (!isShortFilms) {
-  //   //   setFilterFilms(cards.filter((film) => film.duration <= 40));
-  //   // } else {
-  //   //   setFilterFilms(cards);
-  //   // }
-  //   const newCards = filterMovies();
-  //   //console.log(isShortFilms, searchQuery, newCards);
-  //   setFilterFilms(newCards);
-  // }
 
-  // //Поиск фильмов в Movies
-  // function handleSearchFilms(v) {
-  //   // let newCards = cards.filter((card) => {
-  //   //   return (
-  //   //     card.nameRU.toLowerCase().includes(v.toLowerCase()) ||
-  //   //     card.nameEN.toLowerCase().includes(v.toLowerCase())
-  //   //   );
-  //   // });
-  //   setSearchQuery(v);
-  //   const newCards = filterMovies();
-  //   // console.log(isShortFilms, searchQuery, newCards);
-  //   if (newCards.length === 0) {
-  //     setError(true);
-  //     setErrorText("Ничего не найдено");
-  //   } else if (v.toLowerCase().length === 0) {
-  //     setError(true);
-  //     setErrorText("Нужно ввести ключевое слово");
-  //   } else {
-  //     setError(false);
-  //   }
-  //   setFilterFilms(newCards);
-  // }
-
-  // function filterMovies() {
-  //   let newCards = cards.filter((card) => {
-  //     return (
-  //       card.nameRU.toLowerCase().includes(searchQuery.toLowerCase()) ||
-  //       card.nameEN.toLowerCase().includes(searchQuery.toLowerCase())
-  //     );
-  //   });
-  //   if (!isShortFilms) {
-  //     newCards = newCards.filter((film) => film.duration <= 40);
-  //   }
-  //   return newCards;
-  // }
+  useEffect(() => {
+    setFilterFilms(JSON.parse(localStorage.getItem("filteredFilms")));
+  }, []);
 
   function handleShortFilms(v) {
-    setIsShortFilms(v);
-    if (!isShortFilms) {
-      setFilterFilms(cards.filter((film) => film.duration <= 40));
-    } else {
-      setFilterFilms(cards);
+    if (filterFilms) {
+      setIsShortFilms(v);
+      if (!isShortFilms) {
+        setShortFilms(filterFilms.filter((film) => film.duration <= MOVIES_SHORT));
+        localStorage.setItem(
+          "shortFilms",
+          JSON.stringify(filterFilms.filter((film) => film.duration <= MOVIES_SHORT))
+        );
+      } else {
+        setFilterFilms(filterFilms);
+      }
     }
   }
 
-  //Функция фильтрации карточек в Movies по ключевому слову
   function handleSearchFilms(v) {
     const inputValueFilms = v.toLowerCase();
-    const newCards = cards.filter((card) => {
+    const newCards = initialCards.filter((card) => {
       return (
         card.nameRU.toLowerCase().includes(inputValueFilms) ||
         card.nameEN.toLowerCase().includes(inputValueFilms)
@@ -88,6 +57,7 @@ function Movies({ cards, onSaveMovie, onDeleteMovie, saveCard, isLoggedIn, isLoa
       setError(false);
     }
     setFilterFilms(newCards);
+    localStorage.setItem("filteredFilms", JSON.stringify(newCards));
   }
 
   return (
@@ -101,7 +71,7 @@ function Movies({ cards, onSaveMovie, onDeleteMovie, saveCard, isLoggedIn, isLoa
       />
 
       <MoviesCardList
-        films={filterFilms}
+        films={isShortFilms ? shortFilms : filterFilms}
         onSaveMovie={onSaveMovie}
         onDeleteMovie={onDeleteMovie}
         saveCard={saveCard}

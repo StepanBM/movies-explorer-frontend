@@ -3,25 +3,30 @@ import "./MoviesCard.css";
 
 import { useLocation } from "react-router-dom";
 
-function MoviesCard({ card, onSaveMovie, onDeleteMovie, save }) {
+function MoviesCard({ card, onSaveMovie, onDeleteMovie, saveCardId }) {
   let location = useLocation();
 
   const [saveCard, setSaveCard] = React.useState(false);
 
   React.useEffect(() => {
-    save.map((saveMovies) => {
+    saveCardId.map((saveMovies) => {
       if (saveMovies.movieId === card.id) {
         setSaveCard(true);
       }
     });
-  }, [save, card]);
+  }, []);
 
   //Обработчик клика по кнопке лайка
   function handleLikeClick() {
     if (saveCard) {
-      onDeleteMovie(save.filter((item) => item.movieId === card.id)[0]);
+      //console.log(saveCardId.filter((item) => item.movieId === card.id)[0]);
+      onDeleteMovie(saveCardId.filter((item) => item.movieId === card.id)[0]);
+      setSaveCard(false);
+      console.log(false);
     } else {
       onSaveMovie(card);
+      setSaveCard(true);
+      //console.log(true);
     }
   }
 

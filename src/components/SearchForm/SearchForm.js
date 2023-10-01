@@ -3,17 +3,23 @@ import "./SearchForm.css";
 import FilterCheckbox from "../FilterCheckbox/FilterCheckbox";
 
 function SearchForm({ setSearchQuery, isShortFilms, setIsShortFilms, errorText, error }) {
-  const [search, setSearch] = React.useState("");
+  const [search, setSearch] = React.useState(localStorage.getItem("searchQuery") || "");
 
   const handleSearch = (evt) => {
     evt.preventDefault();
     setSearchQuery(search);
+    localStorage.setItem("searchQuery", search);
   };
 
-  const handleChangeSearchQuery = (evt) => setSearch(evt.target.value);
+  const handleChangeSearchQuery = (evt) => {
+    localStorage.setItem("searchQuery", evt.target.value);
+    setSearch(evt.target.value);
+  };
 
-  const handleChangeTumbler = () => setIsShortFilms(!isShortFilms);
-
+  const handleChangeTumbler = () => {
+    localStorage.setItem("checkbox", !isShortFilms);
+    setIsShortFilms(!isShortFilms);
+  };
   return (
     <section className="search">
       <form className="search__form" onSubmit={handleSearch}>
