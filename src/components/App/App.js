@@ -49,18 +49,14 @@ function App() {
 
   const [isLoading, setIsLoading] = React.useState(false);
 
-  function onRegister(name, email, password) {
-    //console.log(name, email, password);
+  function onRegister({ name, email, password }) {
     auth
       .registerNewUser(name, email, password)
       .then(() => {
-        // console.log(data);
-        //console.log(name);
         setPopupImage(approved);
         setPopupAnswer("Вы успешно зарегистрировались!");
         handleInfoTooltip();
-        // onLogin(data.email, password);
-        navigate("/signin");
+        onLogin({ email, password });
       })
       .catch(() => {
         setPopupImage(wrong);
@@ -69,8 +65,7 @@ function App() {
       });
   }
 
-  function onLogin(email, password) {
-    // console.log(email, password, "onLogin");
+  function onLogin({ email, password }) {
     auth
       .loginUser(email, password)
       .then((res) => {

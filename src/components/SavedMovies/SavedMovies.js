@@ -15,8 +15,6 @@ function SavedMovies({ saveCard, onDeleteMovie }) {
     } else {
       setFilterSaveFilms(saveCard);
     }
-
-    console.log("effectFilter");
   }, [saveCard]);
 
   //Поиск фильмов в Movies
