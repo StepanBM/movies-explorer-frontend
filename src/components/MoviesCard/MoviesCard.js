@@ -19,14 +19,12 @@ function MoviesCard({ card, onSaveMovie, onDeleteMovie, saveCardId }) {
   //Обработчик клика по кнопке лайка
   function handleLikeClick() {
     if (saveCard) {
-      //console.log(saveCardId.filter((item) => item.movieId === card.id)[0]);
+      console.log(saveCardId.filter((item) => item.movieId === card.id)[0]);
       onDeleteMovie(saveCardId.filter((item) => item.movieId === card.id)[0]);
       setSaveCard(false);
-      console.log(false);
     } else {
       onSaveMovie(card);
       setSaveCard(true);
-      //console.log(true);
     }
   }
 

@@ -22,9 +22,8 @@ function MoviesCardList({ films, onSaveMovie, onDeleteMovie, saveCard, isLoading
 
   const screenWidth = React.useRef(window.innerWidth);
 
-  const [isInitialDisplayOfMovies, setIsInitialDisplayOfMovies] =
-    React.useState(MOVIE_SCREEN_TWELVE);
-  const [addingNumberOfMovies, setAddingNumberOfMovies] = React.useState(MOVIE_SCREEN);
+  const [isInitialDisplayOfMovies, setIsInitialDisplayOfMovies] = React.useState(12);
+  const [addingNumberOfMovies, setAddingNumberOfMovies] = React.useState(0);
   const [isButtonMore, setIsButtonMore] = React.useState(false);
 
   React.useEffect(() => {
@@ -59,6 +58,7 @@ function MoviesCardList({ films, onSaveMovie, onDeleteMovie, saveCard, isLoading
   }
 
   function handleMoreBtnClick() {
+    console.log(addingNumberOfMovies, "dsadasdd");
     const newAmountx = addingNumberOfMovies + isInitialDisplayOfMovies;
     setIsInitialDisplayOfMovies(newAmountx);
   }

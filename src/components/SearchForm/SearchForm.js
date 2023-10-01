@@ -1,18 +1,28 @@
 import React from "react";
 import "./SearchForm.css";
 import FilterCheckbox from "../FilterCheckbox/FilterCheckbox";
+import { useLocation } from "react-router-dom";
 
 function SearchForm({ setSearchQuery, isShortFilms, setIsShortFilms, errorText, error }) {
-  const [search, setSearch] = React.useState(localStorage.getItem("searchQuery") || "");
-
+  let location = useLocation();
+  const [search, setSearch] = React.useState(
+    location.pathname === "/movies"
+      ? localStorage.getItem("searchQuery") || ""
+      : localStorage.getItem("saveSearchQuery") || ""
+  );
   const handleSearch = (evt) => {
     evt.preventDefault();
     setSearchQuery(search);
-    localStorage.setItem("searchQuery", search);
+    location.pathname === "/movies"
+      ? localStorage.setItem("searchQuery", search)
+      : localStorage.setItem("saveSearchQuery", search);
   };
 
   const handleChangeSearchQuery = (evt) => {
-    localStorage.setItem("searchQuery", evt.target.value);
+    location.pathname === "/movies"
+      ? localStorage.setItem("searchQuery", evt.target.value)
+      : localStorage.setItem("saveSearchQuery", evt.target.value);
+    // localStorage.setItem('searchQuery', evt.target.value)
     setSearch(evt.target.value);
   };
 

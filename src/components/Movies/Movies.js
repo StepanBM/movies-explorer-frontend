@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import "./Movies.css";
 import SearchForm from "../SearchForm/SearchForm";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
-
 import { MOVIES_SHORT } from "../../utils/constants";
 
 function Movies({ onSaveMovie, onDeleteMovie, saveCard, isLoading, initialCards }) {
@@ -12,7 +11,7 @@ function Movies({ onSaveMovie, onDeleteMovie, saveCard, isLoading, initialCards 
   const [shortFilms, setShortFilms] = React.useState(
     JSON.parse(localStorage.getItem("shortFilms")) || []
   );
-  //const [searchQuery, setSearchQuery] = React.useState("");
+
   const [isShortFilms, setIsShortFilms] = React.useState(
     localStorage.getItem("checkbox") === "true" ? true : false
   );
