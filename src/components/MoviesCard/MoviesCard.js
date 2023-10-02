@@ -3,7 +3,7 @@ import "./MoviesCard.css";
 
 import { useLocation } from "react-router-dom";
 
-function MoviesCard({ card, onSaveMovie, onDeleteMovie, saveCardId }) {
+function MoviesCard({ card, onSaveMovie, onDeleteMovie, saveCardId, setErrorText }) {
   let location = useLocation();
 
   const [saveCard, setSaveCard] = React.useState(false);
@@ -19,18 +19,27 @@ function MoviesCard({ card, onSaveMovie, onDeleteMovie, saveCardId }) {
   //Обработчик клика по кнопке лайка
   function handleLikeClick() {
     if (saveCard) {
-      console.log(saveCardId.filter((item) => item.movieId === card.id)[0]);
-      onDeleteMovie(saveCardId.filter((item) => item.movieId === card.id)[0]);
-      setSaveCard(false);
+      onDeleteMovie(saveCardId.filter((item) => item.movieId === card.id)[0]).then(() =>
+        setSaveCard(false)
+      );
     } else {
-      onSaveMovie(card);
-      setSaveCard(true);
+      onSaveMovie(card)
+        .then(() => setSaveCard(true))
+        .catch((err) => {
+          console.log(err);
+          setErrorText(
+            "Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. " +
+              "Подождите немного и попробуйте ещё раз"
+          );
+        });
     }
   }
 
   //Обработчик клика по кнопке удаления/карточки
   function handleDeleteClick() {
-    onDeleteMovie(card);
+    onDeleteMovie(card)
+      .then(() => setSaveCard(false))
+      .catch((err) => console.log(err));
   }
 
   return (
@@ -64,7 +73,9 @@ function MoviesCard({ card, onSaveMovie, onDeleteMovie, saveCardId }) {
       </a>
       <div className="movie__container">
         <h2 className="movie__name">{card.nameRU}</h2>
-        <p className="movie__duration">{card.duration}</p>
+        <div className="movie__frame">
+          <p className="movie__duration">{card.duration}</p>
+        </div>
       </div>
     </li>
   );

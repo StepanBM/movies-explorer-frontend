@@ -3,16 +3,24 @@ import "./SearchForm.css";
 import FilterCheckbox from "../FilterCheckbox/FilterCheckbox";
 import { useLocation } from "react-router-dom";
 
-function SearchForm({ setSearchQuery, isShortFilms, setIsShortFilms, errorText, error }) {
+function SearchForm({
+  setIsShortSaveFilmsQuery,
+  setSearchQuery,
+  isShortFilms,
+  setIsShortFilms,
+  errorText,
+  error,
+}) {
   let location = useLocation();
   const [search, setSearch] = React.useState(
-    location.pathname === "/movies"
-      ? localStorage.getItem("searchQuery") || ""
-      : localStorage.getItem("saveSearchQuery") || ""
+    location.pathname === "/movies" ? localStorage.getItem("searchQuery") || "" : ""
   );
   const handleSearch = (evt) => {
     evt.preventDefault();
     setSearchQuery(search);
+    if (location.pathname === "/saved-movies") {
+      setIsShortSaveFilmsQuery(search);
+    }
     location.pathname === "/movies"
       ? localStorage.setItem("searchQuery", search)
       : localStorage.setItem("saveSearchQuery", search);
@@ -27,8 +35,12 @@ function SearchForm({ setSearchQuery, isShortFilms, setIsShortFilms, errorText, 
   };
 
   const handleChangeTumbler = () => {
-    localStorage.setItem("checkbox", !isShortFilms);
-    setIsShortFilms(!isShortFilms);
+    if (location.pathname === "/movies") {
+      localStorage.setItem("checkbox", !isShortFilms);
+      setIsShortFilms(!isShortFilms);
+    } else {
+      setIsShortFilms(!isShortFilms);
+    }
   };
   return (
     <section className="search">

@@ -3,20 +3,22 @@ import "./SavedMovies.css";
 import SearchForm from "../SearchForm/SearchForm";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 
-function SavedMovies({ saveCard, onDeleteMovie }) {
-  const [error, setError] = React.useState(false);
-  const [errorText, setErrorText] = React.useState("");
+function SavedMovies({
+  saveCard,
+  onDeleteMovie,
+  errorText,
+  error,
+  setErrorText,
+  setError,
+}) {
   const [filterSaveFilms, setFilterSaveFilms] = React.useState([]);
-  const [isShortSaveFilms, setIsShortSaveFilms] = React.useState(
-    localStorage.getItem("checkbox") === "true" ? true : false
-  );
-  const [isShortSaveFilmsQuery, setIsShortSaveFilmsQuery] = React.useState(
-    localStorage.getItem("saveSearchQuery") || ""
-  );
+  const [isShortSaveFilms, setIsShortSaveFilms] = React.useState(false);
+  const [isShortSaveFilmsQuery, setIsShortSaveFilmsQuery] = React.useState("");
 
   useEffect(() => {
-    console.log("useEffect сработал");
-    setIsShortSaveFilmsQuery(localStorage.getItem("saveSearchQuery"));
+    setErrorText("");
+    // console.log("useEffect сработал");
+    // setIsShortSaveFilmsQuery(localStorage.getItem("saveSearchQuery"));
 
     if (isShortSaveFilmsQuery) {
       if (isShortSaveFilms) {
@@ -26,13 +28,25 @@ function SavedMovies({ saveCard, onDeleteMovie }) {
             saveCard.filter((film) => film.duration <= 40)
           )
         );
+        if ((isShortSaveFilmsQuery, saveCard).length === 0) {
+          setError(true);
+          setErrorText("Ничего не найдено");
+        } else {
+          setError(false);
+        }
       } else {
-        console.log(handleSearchFilmsQuery(isShortSaveFilmsQuery, saveCard));
         setFilterSaveFilms(handleSearchFilmsQuery(isShortSaveFilmsQuery, saveCard));
       }
     } else {
       if (isShortSaveFilms) {
+        const savefilterMovies = saveCard.filter((film) => film.duration <= 40);
         setFilterSaveFilms(saveCard.filter((film) => film.duration <= 40));
+        if (savefilterMovies.length === 0) {
+          setError(true);
+          setErrorText("Ничего не найдено");
+        } else {
+          setError(false);
+        }
       } else {
         setFilterSaveFilms(saveCard);
       }
@@ -41,6 +55,27 @@ function SavedMovies({ saveCard, onDeleteMovie }) {
 
   function handleSearchFilms(v) {
     const newCards = filterSaveFilms.filter((card) => {
+      return (
+        card.nameRU.toLowerCase().includes(v.toLowerCase()) ||
+        card.nameEN.toLowerCase().includes(v.toLowerCase())
+      );
+    });
+
+    if (newCards.length === 0) {
+      setError(true);
+      setErrorText("Ничего не найдено");
+    } else if (v.toLowerCase().length === 0) {
+      setError(true);
+      setErrorText("Нужно ввести ключевое слово");
+    } else {
+      setError(false);
+    }
+
+    setFilterSaveFilms(newCards);
+  }
+
+  function handleSearchFilmsQuery(v, arr) {
+    const newCards = arr.filter((card) => {
       return (
         card.nameRU.toLowerCase().includes(v.toLowerCase()) ||
         card.nameEN.toLowerCase().includes(v.toLowerCase())
@@ -55,38 +90,40 @@ function SavedMovies({ saveCard, onDeleteMovie }) {
     } else {
       setError(false);
     }
-    setFilterSaveFilms(newCards);
-  }
 
-  function handleSearchFilmsQuery(v, arr) {
-    const newCards = arr.filter((card) => {
-      return (
-        card.nameRU.toLowerCase().includes(v.toLowerCase()) ||
-        card.nameEN.toLowerCase().includes(v.toLowerCase())
-      );
-    });
-    console.log(newCards);
     return newCards;
   }
 
-  // Фильтр короткометражек
   function handleShortSaveFilms(v) {
     let isShortSaveFilmsQuery = localStorage.getItem("saveSearchQuery");
     setIsShortSaveFilms(v);
     if (isShortSaveFilmsQuery) {
+      const saveMoviesFilter = saveCard.filter((film) => film.duration <= 40);
+
       if (!isShortSaveFilms) {
         setFilterSaveFilms(
-          handleSearchFilmsQuery(
-            isShortSaveFilmsQuery,
-            saveCard.filter((film) => film.duration <= 40)
-          )
+          handleSearchFilmsQuery(isShortSaveFilmsQuery, saveMoviesFilter)
         );
       } else {
         setFilterSaveFilms(handleSearchFilmsQuery(isShortSaveFilmsQuery, saveCard));
       }
+
+      if (saveMoviesFilter.length === 0) {
+        setError(true);
+        setErrorText("Ничего не найдено");
+      } else {
+        setError(false);
+      }
     } else {
       if (!isShortSaveFilms) {
-        setFilterSaveFilms(saveCard.filter((film) => film.duration <= 40));
+        const filterSaveMovies = saveCard.filter((film) => film.duration <= 40);
+        setFilterSaveFilms(filterSaveMovies);
+        if (filterSaveMovies.length === 0) {
+          setError(true);
+          setErrorText("Ничего не найдено");
+        } else {
+          setError(false);
+        }
       } else {
         setFilterSaveFilms(saveCard);
       }

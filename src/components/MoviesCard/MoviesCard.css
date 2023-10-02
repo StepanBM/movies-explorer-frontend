@@ -26,6 +26,13 @@
   white-space: nowrap;
 }
 
+.movie__frame {
+  width: 52px;
+  height: 18px;
+  border-radius: 3px;
+  background: #2f2f2f;
+}
+
 .movie__duration {
   color: #8b8b8b;
   text-align: center;
@@ -34,6 +41,7 @@
   line-height: 10px;
   width: 52px;
   margin: 0;
+  padding-top: 4px;
 }
 
 .movie__save {

@@ -49,6 +49,11 @@ function App() {
 
   const [isLoading, setIsLoading] = React.useState(false);
 
+  const [error, setError] = React.useState(false);
+  const [errorText, setErrorText] = React.useState("");
+
+  // const [likeCard, setLikeCard] = React.useState(false);
+
   function onRegister({ name, email, password }) {
     auth
       .registerNewUser(name, email, password)
@@ -133,6 +138,10 @@ function App() {
         })
         .catch((err) => {
           console.error(err);
+          setErrorText(
+            "Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. " +
+              "Подождите немного и попробуйте ещё раз"
+          );
         })
         .finally(() => {
           setIsLoading(false);
@@ -151,6 +160,10 @@ function App() {
         })
         .catch((err) => {
           console.error(err);
+          setErrorText(
+            "Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. " +
+              "Подождите немного и попробуйте ещё раз"
+          );
         })
         .finally(() => {
           setIsLoading(false);
@@ -170,6 +183,10 @@ function App() {
         })
         .catch((err) => {
           console.error(err);
+          setErrorText(
+            "Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. " +
+              "Подождите немного и попробуйте ещё раз"
+          );
         })
         .finally(() => {
           setIsLoading(false);
@@ -177,11 +194,6 @@ function App() {
     }
     return;
   }, [isLoggedIn]);
-
-  /* React.useEffect(() => {
-    const page = localStorage.getItem("page");
-    navigate(page);
-  });*/
 
   function handleUpdateUser(data) {
     mainApi
@@ -198,17 +210,23 @@ function App() {
   }
 
   function handleSaveMovie(data) {
-    mainApi
+    return mainApi
       .addMovies(data)
       .then((newCard) => {
         setSaveCard([newCard, ...saveCard]);
         localStorage.setItem("saved-movies", JSON.stringify([newCard, ...saveCard]));
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+        setErrorText(
+          "Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. " +
+            "Подождите немного и попробуйте ещё раз"
+        );
+      });
   }
 
   function handleDeleteMovie(filmDelete) {
-    mainApi
+    return mainApi
       .removeMovies(filmDelete._id)
       .then((res) => {
         const saveCardArray = saveCard.filter((card) => {
@@ -219,6 +237,7 @@ function App() {
             return card._id !== filmDelete._id;
           })
         );
+
         localStorage.setItem("saved-movies", JSON.stringify(saveCardArray));
       })
       .catch((err) => console.log(err));
@@ -277,6 +296,10 @@ function App() {
                           saveCard={saveCard}
                           isLoading={isLoading}
                           initialCards={initialCards}
+                          errorText={errorText}
+                          error={error}
+                          setError={setError}
+                          setErrorText={setErrorText}
                         />
                       </>
                     }
@@ -299,6 +322,10 @@ function App() {
                           isLoggedIn={isLoggedIn}
                           saveCard={saveCard}
                           onDeleteMovie={handleDeleteMovie}
+                          errorText={errorText}
+                          error={error}
+                          setError={setError}
+                          setErrorText={setErrorText}
                         />
                       </>
                     }

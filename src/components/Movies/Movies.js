@@ -4,31 +4,58 @@ import SearchForm from "../SearchForm/SearchForm";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import { MOVIES_SHORT } from "../../utils/constants";
 
-function Movies({ onSaveMovie, onDeleteMovie, saveCard, isLoading, initialCards }) {
+function Movies({
+  onSaveMovie,
+  onDeleteMovie,
+  saveCard,
+  isLoading,
+  initialCards,
+  errorText,
+  error,
+  setErrorText,
+  setError,
+  likeCard,
+  setLikeCard,
+}) {
   const [filterFilms, setFilterFilms] = React.useState(
     JSON.parse(localStorage.getItem("filteredFilms")) || []
   );
   const [shortFilms, setShortFilms] = React.useState(
     JSON.parse(localStorage.getItem("shortFilms")) || []
   );
-
+  const [filterShortFilms, setFilterShortFilms] = React.useState(
+    JSON.parse(localStorage.getItem("filteredShortFilms")) || []
+  );
   const [isShortFilms, setIsShortFilms] = React.useState(
     localStorage.getItem("checkbox") === "true" ? true : false
   );
-  const [error, setError] = React.useState(false);
-  const [errorText, setErrorText] = React.useState("");
 
   useEffect(() => {
     setFilterFilms(JSON.parse(localStorage.getItem("filteredFilms")));
-  }, []);
+    setFilterShortFilms(JSON.parse(localStorage.getItem("filteredShortFilms")));
+    setShortFilms(JSON.parse(localStorage.getItem("shortFilms")));
+  }, [isShortFilms]);
 
   function handleShortFilms(v) {
+    setErrorText("");
     if (filterFilms) {
-      setIsShortFilms(v);
+      setIsShortFilms(!isShortFilms);
       if (!isShortFilms) {
-        setShortFilms(filterFilms.filter((film) => film.duration <= MOVIES_SHORT));
+        const shortFilms = filterFilms.filter((film) => film.duration <= MOVIES_SHORT);
+        setShortFilms(shortFilms);
+        if (shortFilms.length === 0) {
+          setError(true);
+          setErrorText("Ничего не найдено");
+        } else {
+          setError(false);
+        }
         localStorage.setItem(
           "shortFilms",
+          JSON.stringify(filterFilms.filter((film) => film.duration <= MOVIES_SHORT))
+        );
+        setFilterShortFilms(filterFilms.filter((film) => film.duration <= MOVIES_SHORT));
+        localStorage.setItem(
+          "filteredShortFilms",
           JSON.stringify(filterFilms.filter((film) => film.duration <= MOVIES_SHORT))
         );
       } else {
@@ -39,12 +66,20 @@ function Movies({ onSaveMovie, onDeleteMovie, saveCard, isLoading, initialCards 
 
   function handleSearchFilms(v) {
     const inputValueFilms = v.toLowerCase();
-    const newCards = initialCards.filter((card) => {
-      return (
-        card.nameRU.toLowerCase().includes(inputValueFilms) ||
-        card.nameEN.toLowerCase().includes(inputValueFilms)
-      );
-    });
+
+    const newCards = isShortFilms
+      ? shortFilms.filter((card) => {
+          return (
+            card.nameRU.toLowerCase().includes(inputValueFilms) ||
+            card.nameEN.toLowerCase().includes(inputValueFilms)
+          );
+        })
+      : initialCards.filter((card) => {
+          return (
+            card.nameRU.toLowerCase().includes(inputValueFilms) ||
+            card.nameEN.toLowerCase().includes(inputValueFilms)
+          );
+        });
 
     if (newCards.length === 0) {
       setError(true);
@@ -56,7 +91,10 @@ function Movies({ onSaveMovie, onDeleteMovie, saveCard, isLoading, initialCards 
       setError(false);
     }
     setFilterFilms(newCards);
-    localStorage.setItem("filteredFilms", JSON.stringify(newCards));
+    isShortFilms ? setFilterShortFilms(newCards) : setFilterFilms(newCards);
+    isShortFilms
+      ? localStorage.setItem("filteredShortFilms", JSON.stringify(newCards))
+      : localStorage.setItem("filteredFilms", JSON.stringify(newCards));
   }
 
   return (
@@ -70,11 +108,12 @@ function Movies({ onSaveMovie, onDeleteMovie, saveCard, isLoading, initialCards 
       />
 
       <MoviesCardList
-        films={isShortFilms ? shortFilms : filterFilms}
+        films={isShortFilms ? filterShortFilms : filterFilms}
         onSaveMovie={onSaveMovie}
         onDeleteMovie={onDeleteMovie}
         saveCard={saveCard}
         isLoading={isLoading}
+        setErrorText={setErrorText}
       />
     </section>
   );

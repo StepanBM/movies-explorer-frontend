@@ -17,7 +17,14 @@ import {
   MOVIE_SCREEN,
 } from "../../utils/constants";
 
-function MoviesCardList({ films, onSaveMovie, onDeleteMovie, saveCard, isLoading }) {
+function MoviesCardList({
+  films,
+  onSaveMovie,
+  onDeleteMovie,
+  saveCard,
+  isLoading,
+  setErrorText,
+}) {
   let location = useLocation();
 
   const screenWidth = React.useRef(window.innerWidth);
@@ -58,7 +65,6 @@ function MoviesCardList({ films, onSaveMovie, onDeleteMovie, saveCard, isLoading
   }
 
   function handleMoreBtnClick() {
-    console.log(addingNumberOfMovies, "dsadasdd");
     const newAmountx = addingNumberOfMovies + isInitialDisplayOfMovies;
     setIsInitialDisplayOfMovies(newAmountx);
   }
@@ -78,6 +84,7 @@ function MoviesCardList({ films, onSaveMovie, onDeleteMovie, saveCard, isLoading
           onSaveMovie={onSaveMovie}
           onDeleteMovie={onDeleteMovie}
           saveCardId={saveCard}
+          setErrorText={setErrorText}
         />
       ));
   }
@@ -90,6 +97,7 @@ function MoviesCardList({ films, onSaveMovie, onDeleteMovie, saveCard, isLoading
         onSaveMovie={onSaveMovie}
         onDeleteMovie={onDeleteMovie}
         saveCardId={saveCard}
+        setErrorText={setErrorText}
       />
     ));
   }
