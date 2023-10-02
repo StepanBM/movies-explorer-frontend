@@ -42,6 +42,10 @@ function MoviesCard({ card, onSaveMovie, onDeleteMovie, saveCardId, setErrorText
       .catch((err) => console.log(err));
   }
 
+  function transformationMinToHours(min) {
+    return `${Math.floor(min / 60)}ч ${min % 60}м`;
+  }
+
   return (
     <li className="movie">
       <div className="movie__button"></div>
@@ -74,7 +78,7 @@ function MoviesCard({ card, onSaveMovie, onDeleteMovie, saveCardId, setErrorText
       <div className="movie__container">
         <h2 className="movie__name">{card.nameRU}</h2>
         <div className="movie__frame">
-          <p className="movie__duration">{card.duration}</p>
+          <p className="movie__duration">{transformationMinToHours(card.duration)}</p>
         </div>
       </div>
     </li>
