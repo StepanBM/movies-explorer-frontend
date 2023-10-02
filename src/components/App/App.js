@@ -157,6 +157,9 @@ function App() {
         .getInitialMovies()
         .then((card) => {
           setInitialCards(card);
+          const startFilterCards = card.filter((film) => film.duration <= 40);
+          localStorage.setItem("filteredShortFilms", JSON.stringify(startFilterCards));
+          localStorage.setItem("shortFilms", JSON.stringify(startFilterCards));
         })
         .catch((err) => {
           console.error(err);

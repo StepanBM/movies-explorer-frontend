@@ -37,8 +37,10 @@ function Movies({
   }, [isShortFilms]);
 
   function handleShortFilms(v) {
+    console.log("не if");
     setErrorText("");
     if (filterFilms) {
+      console.log("if");
       setIsShortFilms(!isShortFilms);
       if (!isShortFilms) {
         const shortFilms = filterFilms.filter((film) => film.duration <= MOVIES_SHORT);
@@ -60,7 +62,11 @@ function Movies({
         );
       } else {
         setFilterFilms(filterFilms);
+        setIsShortFilms(!isShortFilms);
+        console.log(!isShortFilms);
       }
+    } else {
+      setIsShortFilms(!isShortFilms);
     }
   }
 
