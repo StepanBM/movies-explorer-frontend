@@ -19,9 +19,15 @@ function MoviesCard({ card, onSaveMovie, onDeleteMovie, saveCardId, setErrorText
   //Обработчик клика по кнопке лайка
   function handleLikeClick() {
     if (saveCard) {
-      onDeleteMovie(saveCardId.filter((item) => item.movieId === card.id)[0]).then(() =>
-        setSaveCard(false)
-      );
+      onDeleteMovie(saveCardId.filter((item) => item.movieId === card.id)[0])
+        .then(() => setSaveCard(false))
+        .catch((err) => {
+          console.log(err);
+          setErrorText(
+            "Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. " +
+              "Подождите немного и попробуйте ещё раз"
+          );
+        });
     } else {
       onSaveMovie(card)
         .then(() => setSaveCard(true))

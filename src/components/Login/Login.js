@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import "./Login.css";
 import { useValidationForm, EMAIL_PATTERN } from "../../utils/Validation";
 
-function Login({ onLogin }) {
+function Login({ onLogin, isLoading }) {
   const { values, handleChange, errors, isValid } = useValidationForm({});
 
   function handleSubmit(evt) {
@@ -48,7 +48,11 @@ function Login({ onLogin }) {
           />
           <span className="authentication__error">{errors["password"]}</span>
         </label>
-        <button className="authentication__submit" type="submit" disabled={!isValid}>
+        <button
+          className="authentication__submit"
+          type="submit"
+          disabled={!isValid || isLoading}
+        >
           Войти
         </button>
       </form>

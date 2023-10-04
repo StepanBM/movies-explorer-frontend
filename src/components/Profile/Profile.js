@@ -5,7 +5,7 @@ import "./Profile.css";
 import { useValidationForm, EMAIL_PATTERN } from "../../utils/Validation";
 import { CurrentUserContext } from "../../contexts/currentUserContext";
 
-function Profile({ onUpdateUser, onSignOut }) {
+function Profile({ onUpdateUser, onSignOut, isLoading }) {
   const currentUser = React.useContext(CurrentUserContext);
   const { values, handleChange, errors, isValid } = useValidationForm({
     name: currentUser.name,
@@ -22,7 +22,6 @@ function Profile({ onUpdateUser, onSignOut }) {
   }, [values, currentUser]);
 
   function handleSubmit(evt) {
-    console.log(values);
     evt.preventDefault();
     if (isValid) {
       onUpdateUser(values);
@@ -66,7 +65,11 @@ function Profile({ onUpdateUser, onSignOut }) {
             <span className="profile__error">{errors["email"]}</span>
           </div>
         </label>
-        <button className="profile__edit" type="submit" disabled={!isValid || isDisabled}>
+        <button
+          className="profile__edit"
+          type="submit"
+          disabled={!isValid || isDisabled || isLoading}
+        >
           Редактировать
         </button>
       </form>

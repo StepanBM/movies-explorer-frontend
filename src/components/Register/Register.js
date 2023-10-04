@@ -5,7 +5,7 @@ import "./Register.css";
 
 import { useValidationForm, EMAIL_PATTERN } from "../../utils/Validation";
 
-function Register({ onRegister }) {
+function Register({ onRegister, isLoading }) {
   const { values, handleChange, errors, isValid } = useValidationForm({});
 
   function handleSubmit(evt) {
@@ -63,7 +63,11 @@ function Register({ onRegister }) {
           />
           <span className="registration__error">{errors["password"]}</span>
         </label>
-        <button className="registration__submit" type="submit" disabled={!isValid}>
+        <button
+          className="registration__submit"
+          type="submit"
+          disabled={!isValid || isLoading}
+        >
           Зарегистрироваться
         </button>
       </form>

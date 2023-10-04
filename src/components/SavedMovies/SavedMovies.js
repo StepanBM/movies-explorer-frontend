@@ -17,8 +17,6 @@ function SavedMovies({
 
   useEffect(() => {
     setErrorText("");
-    // console.log("useEffect сработал");
-    // setIsShortSaveFilmsQuery(localStorage.getItem("saveSearchQuery"));
 
     if (isShortSaveFilmsQuery) {
       if (isShortSaveFilms) {
@@ -28,7 +26,12 @@ function SavedMovies({
             saveCard.filter((film) => film.duration <= 40)
           )
         );
-        if ((isShortSaveFilmsQuery, saveCard).length === 0) {
+        if (
+          handleSearchFilmsQuery(
+            isShortSaveFilmsQuery,
+            saveCard.filter((film) => film.duration <= 40)
+          ).length === 0
+        ) {
           setError(true);
           setErrorText("Ничего не найдено");
         } else {
@@ -40,7 +43,7 @@ function SavedMovies({
     } else {
       if (isShortSaveFilms) {
         const savefilterMovies = saveCard.filter((film) => film.duration <= 40);
-        setFilterSaveFilms(saveCard.filter((film) => film.duration <= 40));
+        setFilterSaveFilms(savefilterMovies);
         if (savefilterMovies.length === 0) {
           setError(true);
           setErrorText("Ничего не найдено");
@@ -84,7 +87,7 @@ function SavedMovies({
     if (newCards.length === 0) {
       setError(true);
       setErrorText("Ничего не найдено");
-    } else if (v.toLowerCase().length === 0) {
+    } else if (isShortSaveFilmsQuery.toLowerCase().length === 0) {
       setError(true);
       setErrorText("Нужно ввести ключевое слово");
     } else {
@@ -104,6 +107,13 @@ function SavedMovies({
         setFilterSaveFilms(
           handleSearchFilmsQuery(isShortSaveFilmsQuery, saveMoviesFilter)
         );
+
+        if (handleSearchFilmsQuery(isShortSaveFilmsQuery, saveCard).length === 0) {
+          setError(true);
+          setErrorText("Ничего не найдено");
+        } else {
+          setError(false);
+        }
       } else {
         setFilterSaveFilms(handleSearchFilmsQuery(isShortSaveFilmsQuery, saveCard));
       }
@@ -118,6 +128,7 @@ function SavedMovies({
       if (!isShortSaveFilms) {
         const filterSaveMovies = saveCard.filter((film) => film.duration <= 40);
         setFilterSaveFilms(filterSaveMovies);
+
         if (filterSaveMovies.length === 0) {
           setError(true);
           setErrorText("Ничего не найдено");

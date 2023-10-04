@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import "./Movies.css";
 import SearchForm from "../SearchForm/SearchForm";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
-import { MOVIES_SHORT } from "../../utils/constants";
 
 function Movies({
   onSaveMovie,
@@ -13,15 +12,11 @@ function Movies({
   errorText,
   error,
   setErrorText,
+  shortFilms,
   setError,
-  likeCard,
-  setLikeCard,
 }) {
   const [filterFilms, setFilterFilms] = React.useState(
     JSON.parse(localStorage.getItem("filteredFilms")) || []
-  );
-  const [shortFilms, setShortFilms] = React.useState(
-    JSON.parse(localStorage.getItem("shortFilms")) || []
   );
   const [filterShortFilms, setFilterShortFilms] = React.useState(
     JSON.parse(localStorage.getItem("filteredShortFilms")) || []
@@ -31,76 +26,53 @@ function Movies({
   );
 
   useEffect(() => {
+    setErrorText("");
     setFilterFilms(JSON.parse(localStorage.getItem("filteredFilms")));
     setFilterShortFilms(JSON.parse(localStorage.getItem("filteredShortFilms")));
-    setShortFilms(JSON.parse(localStorage.getItem("shortFilms")));
   }, [isShortFilms]);
 
-  function handleShortFilms(v) {
-    console.log("не if");
-    setErrorText("");
-    if (filterFilms) {
-      console.log("if");
-      setIsShortFilms(!isShortFilms);
-      if (!isShortFilms) {
-        const shortFilms = filterFilms.filter((film) => film.duration <= MOVIES_SHORT);
-        setShortFilms(shortFilms);
-        if (shortFilms.length === 0) {
-          setError(true);
-          setErrorText("Ничего не найдено");
-        } else {
-          setError(false);
-        }
-        localStorage.setItem(
-          "shortFilms",
-          JSON.stringify(filterFilms.filter((film) => film.duration <= MOVIES_SHORT))
-        );
-        setFilterShortFilms(filterFilms.filter((film) => film.duration <= MOVIES_SHORT));
-        localStorage.setItem(
-          "filteredShortFilms",
-          JSON.stringify(filterFilms.filter((film) => film.duration <= MOVIES_SHORT))
-        );
-      } else {
-        setFilterFilms(filterFilms);
-        setIsShortFilms(!isShortFilms);
-        console.log(!isShortFilms);
-      }
-    } else {
-      setIsShortFilms(!isShortFilms);
-    }
+  function handleShortFilms() {
+    setIsShortFilms(!isShortFilms);
   }
 
+  useEffect(() => {
+    if (isShortFilms) {
+      if (filterShortFilms.length === 0) {
+        setError(true);
+        setErrorText("Ничего не найдено");
+      } else {
+        setError(false);
+      }
+    }
+  }, [filterShortFilms]);
+
   function handleSearchFilms(v) {
-    const inputValueFilms = v.toLowerCase();
+    const localFilterFilms = initialCards.filter((card) => {
+      return (
+        card.nameRU.toLowerCase().includes(v.toLowerCase()) ||
+        card.nameEN.toLowerCase().includes(v.toLowerCase())
+      );
+    });
+    const localFilterShortFilms = shortFilms.filter((card) => {
+      return (
+        card.nameRU.toLowerCase().includes(v.toLowerCase()) ||
+        card.nameEN.toLowerCase().includes(v.toLowerCase())
+      );
+    });
+    setFilterFilms(localFilterFilms);
+    setFilterShortFilms(localFilterShortFilms);
+    localStorage.setItem("filteredFilms", JSON.stringify(localFilterFilms));
+    localStorage.setItem("filteredShortFilms", JSON.stringify(localFilterShortFilms));
 
-    const newCards = isShortFilms
-      ? shortFilms.filter((card) => {
-          return (
-            card.nameRU.toLowerCase().includes(inputValueFilms) ||
-            card.nameEN.toLowerCase().includes(inputValueFilms)
-          );
-        })
-      : initialCards.filter((card) => {
-          return (
-            card.nameRU.toLowerCase().includes(inputValueFilms) ||
-            card.nameEN.toLowerCase().includes(inputValueFilms)
-          );
-        });
-
-    if (newCards.length === 0) {
+    if (localFilterFilms.length === 0) {
       setError(true);
       setErrorText("Ничего не найдено");
-    } else if (inputValueFilms.length === 0) {
+    } else if (v.toLowerCase().length === 0) {
       setError(true);
       setErrorText("Нужно ввести ключевое слово");
     } else {
       setError(false);
     }
-    setFilterFilms(newCards);
-    isShortFilms ? setFilterShortFilms(newCards) : setFilterFilms(newCards);
-    isShortFilms
-      ? localStorage.setItem("filteredShortFilms", JSON.stringify(newCards))
-      : localStorage.setItem("filteredFilms", JSON.stringify(newCards));
   }
 
   return (

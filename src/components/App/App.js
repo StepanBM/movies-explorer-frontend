@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.css";
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route, useNavigate, Navigate } from "react-router-dom";
 import Header from "../Header/Header";
 import Main from "../Main/Main";
 import Footer from "../Footer/Footer";
@@ -27,6 +27,8 @@ import moviesApi from "../../utils/MoviesApi";
 import InfoTooltip from "../InfoTooltip/InfoTooltip";
 import Preloader from "../Preloader/Preloader";
 
+import { MOVIES_SHORT } from "../../utils/constants";
+
 import { CurrentUserContext } from "../../contexts/currentUserContext";
 
 import approved from "../../images/Approved.png";
@@ -39,9 +41,10 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = React.useState(
     localStorage.getItem("jwt") || false
   );
-  const [currentCards, setCurrentCards] = React.useState([]);
+
   const [initialCards, setInitialCards] = React.useState([]);
   const [saveCard, setSaveCard] = React.useState([]);
+  const [shortFilms, setShortFilms] = React.useState([]);
 
   const [popupAnswer, setPopupAnswer] = React.useState("");
   const [infoTooltip, setInfoTooltip] = React.useState(false);
@@ -52,9 +55,8 @@ function App() {
   const [error, setError] = React.useState(false);
   const [errorText, setErrorText] = React.useState("");
 
-  // const [likeCard, setLikeCard] = React.useState(false);
-
   function onRegister({ name, email, password }) {
+    setIsLoading(true);
     auth
       .registerNewUser(name, email, password)
       .then(() => {
@@ -67,10 +69,14 @@ function App() {
         setPopupImage(wrong);
         setPopupAnswer("Что-то пошло не так! Попробуйте ещё раз.");
         handleInfoTooltip();
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   }
 
   function onLogin({ email, password }) {
+    setIsLoading(true);
     auth
       .loginUser(email, password)
       .then((res) => {
@@ -90,6 +96,9 @@ function App() {
         setPopupAnswer("Что-то пошло не так! Попробуйте ещё раз.");
         handleInfoTooltip();
         setIsLoggedIn(false);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   }
 
@@ -155,11 +164,13 @@ function App() {
       setIsLoading(true);
       moviesApi
         .getInitialMovies()
-        .then((card) => {
-          setInitialCards(card);
-          const startFilterCards = card.filter((film) => film.duration <= 40);
-          localStorage.setItem("filteredShortFilms", JSON.stringify(startFilterCards));
+        .then((cards) => {
+          setInitialCards(cards);
+          const startFilterCards = cards.filter((film) => film.duration <= MOVIES_SHORT);
           localStorage.setItem("shortFilms", JSON.stringify(startFilterCards));
+          localStorage.setItem("longFilms", JSON.stringify(cards));
+          localStorage.setItem("filteredShortFilms", JSON.stringify(startFilterCards));
+          setShortFilms(startFilterCards);
         })
         .catch((err) => {
           console.error(err);
@@ -199,6 +210,7 @@ function App() {
   }, [isLoggedIn]);
 
   function handleUpdateUser(data) {
+    setIsLoading(true);
     mainApi
       .changeUserInfo(data)
       .then((res) => {
@@ -209,47 +221,39 @@ function App() {
       })
       .catch((err) => {
         console.log(err);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   }
 
   function handleSaveMovie(data) {
-    return mainApi
-      .addMovies(data)
-      .then((newCard) => {
-        setSaveCard([newCard, ...saveCard]);
-        localStorage.setItem("saved-movies", JSON.stringify([newCard, ...saveCard]));
-      })
-      .catch((err) => {
-        console.log(err);
-        setErrorText(
-          "Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. " +
-            "Подождите немного и попробуйте ещё раз"
-        );
-      });
+    return mainApi.addMovies(data).then((newCard) => {
+      setSaveCard([newCard, ...saveCard]);
+      localStorage.setItem("saved-movies", JSON.stringify([newCard, ...saveCard]));
+    });
   }
 
   function handleDeleteMovie(filmDelete) {
-    return mainApi
-      .removeMovies(filmDelete._id)
-      .then((res) => {
-        const saveCardArray = saveCard.filter((card) => {
+    return mainApi.removeMovies(filmDelete._id).then((res) => {
+      const saveCardArray = saveCard.filter((card) => {
+        return card._id !== filmDelete._id;
+      });
+      setSaveCard(
+        saveCard.filter((card) => {
           return card._id !== filmDelete._id;
-        });
-        setSaveCard(
-          saveCard.filter((card) => {
-            return card._id !== filmDelete._id;
-          })
-        );
+        })
+      );
 
-        localStorage.setItem("saved-movies", JSON.stringify(saveCardArray));
-      })
-      .catch((err) => console.log(err));
+      localStorage.setItem("saved-movies", JSON.stringify(saveCardArray));
+    });
   }
 
   function logOutOfYourAccount() {
     setIsLoggedIn(false);
     setCurrentUser({});
-    setCurrentCards([]);
+    setInitialCards([]);
+    setErrorText("");
     localStorage.clear();
     navigate("/");
   }
@@ -293,7 +297,6 @@ function App() {
                           path="/movies"
                           isLoggedIn={isLoggedIn}
                           element={Movies}
-                          cards={currentCards}
                           onSaveMovie={handleSaveMovie}
                           onDeleteMovie={handleDeleteMovie}
                           saveCard={saveCard}
@@ -303,6 +306,7 @@ function App() {
                           error={error}
                           setError={setError}
                           setErrorText={setErrorText}
+                          shortFilms={shortFilms}
                         />
                       </>
                     }
@@ -341,14 +345,28 @@ function App() {
               path="/signup"
               element={
                 <Main
-                  component={<Register onRegister={onRegister} isLoggedIn={isLoggedIn} />}
+                  component={
+                    <Register
+                      onRegister={onRegister}
+                      isLoggedIn={isLoggedIn}
+                      isLoading={isLoading}
+                    />
+                  }
                 />
               }
             />
             <Route
               path="/signin"
               element={
-                <Main component={<Login onLogin={onLogin} isLoggedIn={isLoggedIn} />} />
+                <Main
+                  component={
+                    <Login
+                      onLogin={onLogin}
+                      isLoggedIn={isLoggedIn}
+                      isLoading={isLoading}
+                    />
+                  }
+                />
               }
             />
             <Route
@@ -365,6 +383,7 @@ function App() {
                           isLoggedIn={isLoggedIn}
                           onUpdateUser={handleUpdateUser}
                           onSignOut={logOutOfYourAccount}
+                          isLoading={isLoading}
                         />
                       </>
                     }
