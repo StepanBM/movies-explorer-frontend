@@ -53,6 +53,12 @@
   cursor: pointer;
 }
 
+.search__error {
+  color: #fff;
+  font-size: 13px;
+  font-weight: 400;
+}
+
 @media screen and (max-width: 649px) {
   .search {
     max-width: 292px;

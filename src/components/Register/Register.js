@@ -3,27 +3,38 @@ import logo from "../../images/logo.svg";
 import { Link } from "react-router-dom";
 import "./Register.css";
 
-function Register() {
+import { useValidationForm, EMAIL_PATTERN } from "../../utils/Validation";
+
+function Register({ onRegister, isLoading }) {
+  const { values, handleChange, errors, isValid } = useValidationForm({});
+
+  function handleSubmit(evt) {
+    evt.preventDefault();
+    if (isValid) {
+      onRegister(values);
+    }
+  }
+
   return (
     <section className="registration">
       <Link to="/">
         <img className="registration__logo" src={logo} alt="Логотип" />
       </Link>
       <h1 className="registration__title">Добро пожаловать!</h1>
-      <form className="registration__form">
+      <form className="registration__form" onSubmit={handleSubmit}>
         <label className="registration__item">
           Имя
           <input
             className="registration__input"
-            name="text"
+            name="name"
             type="text"
             minLength="2"
             maxLength="24"
             placeholder="Имя"
-            defaultValue="Виталий"
+            onChange={handleChange}
             required
           />
-          <span className="registration__error"></span>
+          <span className="registration__error">{errors["name"]}</span>
         </label>
         <label className="registration__item">
           E-mail
@@ -32,10 +43,11 @@ function Register() {
             name="email"
             type="email"
             placeholder="E-mail"
-            defaultValue="pochta@yandex.ru"
+            onChange={handleChange}
             required
+            pattern={EMAIL_PATTERN}
           />
-          <span className="registration__error"></span>
+          <span className="registration__error">{errors["email"]}</span>
         </label>
         <label className="registration__item">
           Пароль
@@ -43,15 +55,19 @@ function Register() {
             className="registration__input"
             name="password"
             type="password"
-            minLength="6"
+            minLength="5"
             maxLength="24"
             placeholder="Пароль"
-            defaultValue="••••••••••••••"
+            onChange={handleChange}
             required
           />
-          <span className="registration__error">Что-то пошло не так...</span>
+          <span className="registration__error">{errors["password"]}</span>
         </label>
-        <button className="registration__submit" type="submit">
+        <button
+          className="registration__submit"
+          type="submit"
+          disabled={!isValid || isLoading}
+        >
           Зарегистрироваться
         </button>
       </form>

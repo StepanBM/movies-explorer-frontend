@@ -49,6 +49,10 @@
   box-sizing: border-box;
 }
 
+.registration__input_type_error {
+  color: #ee3465;
+}
+
 .registration__input:focus {
   outline: 1px solid #fff;
 }
@@ -93,6 +97,15 @@
 
 .registration__submit:hover {
   opacity: 0.8;
+}
+
+.registration__submit:disabled {
+  background: #d6d9de;
+  opacity: 0.3;
+}
+
+.registration__submit:focus {
+  outline: none;
 }
 
 .registration__question {

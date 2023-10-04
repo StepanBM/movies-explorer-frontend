@@ -16,6 +16,7 @@
   grid-template-rows: auto;
   row-gap: 55px;
   column-gap: 30px;
+  list-style: none;
 }
 
 .list-movies__more {

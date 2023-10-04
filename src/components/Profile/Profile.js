@@ -2,40 +2,78 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "./Profile.css";
 
-function Profile() {
+import { useValidationForm, EMAIL_PATTERN } from "../../utils/Validation";
+import { CurrentUserContext } from "../../contexts/currentUserContext";
+
+function Profile({ onUpdateUser, onSignOut, isLoading }) {
+  const currentUser = React.useContext(CurrentUserContext);
+  const { values, handleChange, errors, isValid } = useValidationForm({
+    name: currentUser.name,
+    email: currentUser.email,
+  });
+  const [isDisabled, setIsDisabled] = React.useState(true);
+
+  React.useEffect(() => {
+    if (currentUser.name !== values.name || currentUser.email !== values.email) {
+      setIsDisabled(false);
+    } else {
+      setIsDisabled(true);
+    }
+  }, [values, currentUser]);
+
+  function handleSubmit(evt) {
+    evt.preventDefault();
+    if (isValid) {
+      onUpdateUser(values);
+    }
+  }
+
   return (
     <section className="profile">
-      <h1 className="profile__title">Привет, Виталий!</h1>
-      <form className="profile__form">
+      <h1 className="profile__title">Привет, {currentUser.name}!</h1>
+      <form className="profile__form" onSubmit={handleSubmit}>
         <label className="profile__item">
           Имя
-          <input
-            className="profile__input"
-            name="text"
-            type="text"
-            minLength="2"
-            maxLength="24"
-            placeholder="Имя"
-            defaultValue="Виталий"
-            required
-          />
+          <div className="profile__container">
+            <input
+              className="profile__input"
+              name="name"
+              type="text"
+              value={values.name}
+              minLength="2"
+              maxLength="24"
+              placeholder="Имя"
+              onChange={handleChange}
+              required
+            />
+            <span className="profile__error">{errors["name"]}</span>
+          </div>
         </label>
         <label className="profile__item">
           E-mail
-          <input
-            className="profile__input"
-            name="email"
-            type="email"
-            placeholder="E-mail"
-            defaultValue="pochta@yandex.ru"
-            required
-          />
+          <div className="profile__container">
+            <input
+              className="profile__input"
+              name="email"
+              type="email"
+              value={values.email}
+              placeholder="E-mail"
+              onChange={handleChange}
+              required
+              pattern={EMAIL_PATTERN}
+            />
+            <span className="profile__error">{errors["email"]}</span>
+          </div>
         </label>
+        <button
+          className="profile__edit"
+          type="submit"
+          disabled={!isValid || isDisabled || isLoading}
+        >
+          Редактировать
+        </button>
       </form>
-      <button className="profile__edit" type="submit">
-        Редактировать
-      </button>
-      <Link to="/" className="profile__exit">
+      <Link to="/" className="profile__exit" onClick={onSignOut}>
         Выйти из аккаунта
       </Link>
     </section>

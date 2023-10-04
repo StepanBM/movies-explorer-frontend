@@ -1,15 +1,24 @@
 import React from "react";
 import "./Header.css";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import logo from "../../images/logo.svg";
 
-function Header({ component }) {
+import Navigation from "../Navigation/Navigation";
+import UserNavigation from "../UserNavigation/UserNavigation";
+
+function Header({ isLoggedIn }) {
+  let location = useLocation();
+
   return (
     <header className="header">
       <Link to="/">
         <img className="header__logo" src={logo} alt="Логотип" />
       </Link>
-      {component}
+      {!isLoggedIn && location.pathname === "/" ? (
+        <Navigation reg="/signup" way="signin" />
+      ) : (
+        <UserNavigation film="/movies" save="/saved-movies" profile="/profile" />
+      )}
     </header>
   );
 }

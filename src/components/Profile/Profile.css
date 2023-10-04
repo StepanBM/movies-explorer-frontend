@@ -18,6 +18,12 @@
   margin-bottom: 120px;
 }
 
+.profile__container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
 .profile__input {
   width: 122px;
   height: 14px;
@@ -36,6 +42,18 @@
 
 .profile__input:focus {
   outline: 1px solid #fff;
+}
+
+.profile__input_type_error {
+  color: #ee3465;
+}
+
+.profile__error {
+  margin: 0;
+  color: #ee3465;
+  font-size: 10px;
+  font-weight: 400;
+  line-height: normal;
 }
 
 .profile__item {
@@ -59,6 +77,8 @@
 }
 
 .profile__edit {
+  margin: 0 auto;
+  display: flex;
   color: #fff;
   text-align: center;
   font-size: 13px;
@@ -74,6 +94,15 @@
 .profile__edit:hover {
   opacity: 0.6;
   cursor: pointer;
+}
+
+.profile__edit:disabled {
+  color: #d6d9de;
+  opacity: 0.3;
+}
+
+.profile__edit:focus {
+  outline: none;
 }
 
 .profile__exit {
